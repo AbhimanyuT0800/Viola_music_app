@@ -1,21 +1,27 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:music_app/domain/usecase/fetch_all_music_case.dart';
+import 'package:music_app/presentation/providers/current_playing/is_palying.dart';
 import 'package:music_app/presentation/providers/music/music_provider.dart';
 import 'package:music_app/presentation/widgets/home_widgets/play_list_tile_widget.dart';
-import 'package:on_audio_query/on_audio_query.dart' as model;
+import 'package:on_audio_query/on_audio_query.dart';
 
 class HomePage extends ConsumerWidget {
   final ScrollController scrollController;
+
   HomePage({
     super.key,
     required this.scrollController,
   });
 
-  final Future<List<model.SongModel>> allSongs = FetchAudioFiles().fetchAudio();
+  final Future<List<SongModel>> allSongs = FetchAudioFiles().fetchAudio();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // provider for music is playing or not
+    bool isPlaying = ref.watch(isPlayingProvider);
     return RefreshIndicator(
       onRefresh: () async {
         // delay for refresh indicator showing
@@ -39,6 +45,7 @@ class HomePage extends ConsumerWidget {
                           fontWeight: FontWeight.w700),
                     ),
                   ),
+                  // topside section which contain data of current playing music
                   SliverToBoxAdapter(
                     child: Container(
                       padding: const EdgeInsets.all(16.0),
@@ -86,6 +93,7 @@ class HomePage extends ConsumerWidget {
                       ),
                     ),
                   ),
+                  // music controlls section
                   SliverAppBar(
                     pinned: true,
                     title: Container(
@@ -94,15 +102,17 @@ class HomePage extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           IconButton(
-                            icon: const Icon(Icons.skip_previous),
+                            icon: const Icon(Icons.skip_previous_sharp),
                             onPressed: () {},
                             color: Colors.deepPurple,
                           ),
                           IconButton(
-                            icon: const Icon(Icons.play_arrow),
+                            icon: isPlaying
+                                ? const Icon(Icons.pause)
+                                : const Icon(Icons.play_arrow),
                             onPressed: () {
-                              // SharedPrefImpl().setSharedpref(
-                              //     status: !ref.watch(isPlayingProvider));
+                              ref.read(isPlayingProvider.notifier).state =
+                                  !isPlaying;
                             },
                             color: Colors.deepPurple,
                             iconSize: 48.0,
@@ -116,12 +126,14 @@ class HomePage extends ConsumerWidget {
                       ),
                     ),
                   ),
+                  // mp3 files stored in local storage
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       childCount: data.length,
                       (context, index) => Card(
                         child: PlayListTile(
                           song: data[index],
+                          ref: ref,
                         ),
                       ),
                     ),
@@ -129,9 +141,12 @@ class HomePage extends ConsumerWidget {
                 ],
               );
             },
-            error: (error, stackTrace) => Center(
-              child: Text(stackTrace.toString()),
-            ),
+            error: (error, stackTrace) {
+              log(error.toString());
+              return const Center(
+                child: Text('Sorry No Songs found'),
+              );
+            },
             loading: () => const Center(
               child: CircularProgressIndicator(),
             ),

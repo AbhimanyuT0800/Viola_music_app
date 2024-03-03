@@ -61,7 +61,7 @@ class OnBoardingScreen extends StatelessWidget {
                     onTap: () => Navigator.pushReplacement(
                       context,
                       PageTransition(
-                          child: MusicBottomSheet(),
+                          child: const MusicBottomSheet(),
                           type: PageTransitionType.fade),
                     ),
                     child: Container(

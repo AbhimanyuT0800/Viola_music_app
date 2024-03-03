@@ -6,7 +6,7 @@ import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
 import 'package:scroll_to_hide/scroll_to_hide.dart';
 
 class MusicBottomSheet extends StatefulWidget {
-  const MusicBottomSheet({Key? key}) : super(key: key);
+  const MusicBottomSheet({super.key});
 
   @override
   State<MusicBottomSheet> createState() => _MusicBottomSheetState();

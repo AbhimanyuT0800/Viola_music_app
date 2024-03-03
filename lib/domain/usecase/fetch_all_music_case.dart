@@ -1,15 +1,15 @@
 import 'dart:developer';
 
-import 'package:on_audio_query/on_audio_query.dart' as model;
+import 'package:on_audio_query/on_audio_query.dart';
 
 class FetchAudioFiles {
-  Future<List<model.SongModel>> fetchAudio() async {
-    final model.OnAudioQuery audioQuery = model.OnAudioQuery();
+  Future<List<SongModel>> fetchAudio() async {
+    final OnAudioQuery audioQuery = OnAudioQuery();
     try {
-      List<model.SongModel> songsList = await audioQuery.querySongs(
-        sortType: model.SongSortType.TITLE,
-        orderType: model.OrderType.ASC_OR_SMALLER,
-        uriType: model.UriType.EXTERNAL,
+      List<SongModel> songsList = await audioQuery.querySongs(
+        sortType: SongSortType.TITLE,
+        orderType: OrderType.ASC_OR_SMALLER,
+        uriType: UriType.EXTERNAL,
         ignoreCase: true,
       );
       log(songsList.length.toString());
