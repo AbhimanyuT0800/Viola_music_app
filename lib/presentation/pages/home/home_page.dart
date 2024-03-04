@@ -5,8 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:music_app/domain/usecase/fetch_all_music_case.dart';
 import 'package:music_app/presentation/providers/current_playing/is_palying.dart';
-import 'package:music_app/presentation/providers/music/music_provider.dart';
+import 'package:music_app/presentation/providers/current_playing/music_player_provider.dart';
+import 'package:music_app/presentation/providers/music/get_all_music.dart';
+import 'package:music_app/presentation/widgets/home_widgets/current_playing_dtls.dart';
 import 'package:music_app/presentation/widgets/home_widgets/play_list_tile_widget.dart';
+import 'package:music_app/presentation/widgets/home_widgets/progress_indicator.dart';
+import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class HomePage extends ConsumerWidget {
@@ -22,12 +26,15 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // provider for music is playing or not
     bool isPlaying = ref.watch(isPlayingProvider);
+    // provider for audio player
+    final player = ref.watch(musicPlayerProvider);
+
     return RefreshIndicator(
       onRefresh: () async {
         // delay for refresh indicator showing
-        return Future.delayed(const Duration(seconds: 2));
+        return Future.delayed(const Duration(seconds: 3));
       },
-      child: ref.watch(musicProvider).when(
+      child: ref.watch(getAllMusicProvider).when(
             data: (data) {
               // ui will rebuild and shows data when data has come
               return CustomScrollView(
@@ -38,7 +45,7 @@ class HomePage extends ConsumerWidget {
                   SliverAppBar(
                     backgroundColor: Colors.deepPurple,
                     title: Text(
-                      'Music',
+                      'Viola',
                       style: GoogleFonts.roboto(
                           color: Colors.white,
                           fontSize: 30,
@@ -47,51 +54,8 @@ class HomePage extends ConsumerWidget {
                   ),
                   // topside section which contain data of current playing music
                   SliverToBoxAdapter(
-                    child: Container(
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Colors.deepPurple, Colors.deepPurpleAccent],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                        ),
-                      ),
-                      child: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Now Playing',
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(height: 10.0),
-                          CircleAvatar(
-                            radius: 80.0,
-                            backgroundImage:
-                                AssetImage('assets/images/img_onboardig_2.png'),
-                          ),
-                          SizedBox(height: 10.0),
-                          Text(
-                            'Song Title',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            'Artist Name',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.white70,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    child: currentPlayingMusic(
+                        data[ref.watch(currentPlayingIndex)]),
                   ),
                   // music controlls section
                   SliverAppBar(
@@ -103,26 +67,93 @@ class HomePage extends ConsumerWidget {
                         children: [
                           IconButton(
                             icon: const Icon(Icons.skip_previous_sharp),
-                            onPressed: () {},
+                            onPressed: () {
+                              if (player.playing) {
+                                // pause current playing song
+                                player.pause();
+                                if (ref.watch(currentPlayingIndex) != 0) {
+                                  // minus one from current playing index
+                                  ref
+                                          .watch(currentPlayingIndex.notifier)
+                                          .state =
+                                      ref.read(currentPlayingIndex) - 1;
+                                }
+                                // play music in current index
+                                player.setFilePath(
+                                    data[ref.read(currentPlayingIndex)].data);
+                                player.play();
+                              } else {
+                                // if it is not playing just update current playing index
+                                ref.watch(currentPlayingIndex.notifier).state =
+                                    ref.read(currentPlayingIndex) - 1;
+                              }
+                            },
                             color: Colors.deepPurple,
                           ),
                           IconButton(
                             icon: isPlaying
                                 ? const Icon(Icons.pause)
                                 : const Icon(Icons.play_arrow),
-                            onPressed: () {
-                              ref.read(isPlayingProvider.notifier).state =
-                                  !isPlaying;
+                            // controll sctn forf play and pause
+                            onPressed: () async {
+                              if (player.playing) {
+                                // change isPlaying provider
+                                ref.read(isPlayingProvider.notifier).state =
+                                    !ref.watch(isPlayingProvider);
+                                // pause current song if itis playing
+                                player.pause();
+                              } else {
+                                // change isPlaying provider
+                                ref.read(isPlayingProvider.notifier).state =
+                                    !ref.watch(isPlayingProvider);
+                                // if it is not playing a song play last played song
+                                //?? it will play first song
+                                await player.setFilePath(
+                                    data[ref.read(currentPlayingIndex)].data);
+                                player.play();
+                              }
                             },
                             color: Colors.deepPurple,
                             iconSize: 48.0,
                           ),
                           IconButton(
                             icon: const Icon(Icons.skip_next),
-                            onPressed: () {},
+                            onPressed: () {
+                              if (player.playing) {
+                                player.pause();
+                                if (ref.watch(currentPlayingIndex) !=
+                                    data.length - 1) {
+                                  // add one in to current playing index
+                                  ref
+                                          .watch(currentPlayingIndex.notifier)
+                                          .state =
+                                      ref.read(currentPlayingIndex) + 1;
+                                }
+                                // play music in current index
+                                player.setFilePath(
+                                    data[ref.read(currentPlayingIndex)].data);
+                                player.play();
+                              } else {
+                                if (ref.watch(currentPlayingIndex) !=
+                                    data.length - 1) {
+                                  // add  one in to current playing index
+                                  ref
+                                          .watch(currentPlayingIndex.notifier)
+                                          .state =
+                                      ref.read(currentPlayingIndex) + 1;
+                                }
+                              }
+                            },
                             color: Colors.deepPurple,
                           ),
                         ],
+                      ),
+                    ),
+                    bottom: PreferredSize(
+                      preferredSize:
+                          Size(double.infinity, context.screenHeight(50)),
+                      child: ProgressIndicatingWidget(
+                        data: data,
                       ),
                     ),
                   ),
@@ -133,7 +164,7 @@ class HomePage extends ConsumerWidget {
                       (context, index) => Card(
                         child: PlayListTile(
                           song: data[index],
-                          ref: ref,
+                          index: index,
                         ),
                       ),
                     ),

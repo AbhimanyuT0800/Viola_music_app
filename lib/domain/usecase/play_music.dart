@@ -1,8 +1,10 @@
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'play_music.g.dart';
 
 class PlayMusicCase {
   final player = AudioPlayer();
@@ -11,7 +13,7 @@ class PlayMusicCase {
     try {
       await player.setFilePath(model.data);
 
-      // Now wait for audio playback to start before logging
+      // Now wait for audio playback to start
       await player.play();
 
       log('Audio playback started successfully');
@@ -23,10 +25,15 @@ class PlayMusicCase {
   Future<void> pauseCurrentMusic(SongModel model) async {
     try {
       log('pause');
-      await player.setFilePath(model.data);
-      await player.pause();
+
+      player.pause();
     } catch (e) {
       log(e.toString());
     }
   }
+}
+
+@riverpod
+PlayMusicCase playMusicCase(PlayMusicCaseRef ref) {
+  return PlayMusicCase();
 }
