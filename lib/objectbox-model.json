@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:4936908775695531646",
-      "lastPropertyId": "6:9171800041686754558",
+      "lastPropertyId": "8:2794371000411286597",
       "name": "SongsEntity",
       "properties": [
         {
@@ -15,28 +15,18 @@
           "flags": 1
         },
         {
-          "id": "2:1267954315694041181",
-          "name": "songId",
-          "type": 6
-        },
-        {
-          "id": "3:8704805100313453937",
-          "name": "uri",
-          "type": 9
-        },
-        {
-          "id": "4:8626951066153139958",
-          "name": "name",
-          "type": 9
-        },
-        {
           "id": "5:1547261702909263532",
           "name": "artist",
           "type": 9
         },
         {
-          "id": "6:9171800041686754558",
-          "name": "path",
+          "id": "7:3325498367957140990",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "8:2794371000411286597",
+          "name": "data",
           "type": 9
         }
       ],
@@ -51,7 +41,12 @@
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    1267954315694041181,
+    8626951066153139958,
+    9171800041686754558,
+    8704805100313453937
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

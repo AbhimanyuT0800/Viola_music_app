@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:music_app/domain/usecase/fetch_all_music_case.dart';
+import 'package:music_app/presentation/pages/favorite/favorites_page.dart';
 import 'package:music_app/presentation/providers/current_playing/is_palying.dart';
 import 'package:music_app/presentation/providers/current_playing/music_player_provider.dart';
 import 'package:music_app/presentation/providers/music/get_all_music.dart';
+import 'package:music_app/presentation/widgets/home_widgets/buttons_home_song_controllers/play_and_pause.dart';
+import 'package:music_app/presentation/widgets/home_widgets/buttons_home_song_controllers/skip_next.dart';
+import 'package:music_app/presentation/widgets/home_widgets/buttons_home_song_controllers/skip_previos.dart';
 import 'package:music_app/presentation/widgets/home_widgets/current_playing_dtls.dart';
 import 'package:music_app/presentation/widgets/home_widgets/play_list_tile_widget.dart';
 import 'package:music_app/presentation/widgets/home_widgets/progress_indicator.dart';
@@ -51,6 +55,20 @@ class HomePage extends ConsumerWidget {
                           fontSize: 30,
                           fontWeight: FontWeight.w700),
                     ),
+                    actions: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const FavoritePage()));
+                        },
+                        icon: const Icon(
+                          Icons.favorite,
+                          color: Colors.red,
+                        ),
+                      )
+                    ],
                   ),
                   // topside section which contain data of current playing music
                   SliverToBoxAdapter(
@@ -65,96 +83,18 @@ class HomePage extends ConsumerWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          IconButton(
-                            icon: const Icon(Icons.skip_previous_sharp),
-                            onPressed: () {
-                              if (player.playing) {
-                                // pause current playing song
-                                player.pause();
-                                if (ref.watch(currentPlayingIndex) != 0) {
-                                  // minus one from current playing index
-                                  ref
-                                          .watch(currentPlayingIndex.notifier)
-                                          .state =
-                                      ref.read(currentPlayingIndex) - 1;
-                                }
-                                // play music in current index
-                                player.setFilePath(
-                                    data[ref.read(currentPlayingIndex)].data);
-                                player.play();
-                              } else {
-                                // if it is not playing just update current playing index
-                                ref.watch(currentPlayingIndex.notifier).state =
-                                    ref.read(currentPlayingIndex) - 1;
-                              }
-                            },
-                            color: Colors.deepPurple,
-                          ),
-                          IconButton(
-                            icon: isPlaying
-                                ? const Icon(Icons.pause)
-                                : const Icon(Icons.play_arrow),
-                            // controll sctn forf play and pause
-                            onPressed: () async {
-                              if (player.playing) {
-                                // change isPlaying provider
-                                ref.read(isPlayingProvider.notifier).state =
-                                    !ref.watch(isPlayingProvider);
-                                // pause current song if itis playing
-                                player.pause();
-                              } else {
-                                // change isPlaying provider
-                                ref.read(isPlayingProvider.notifier).state =
-                                    !ref.watch(isPlayingProvider);
-                                // if it is not playing a song play last played song
-                                //?? it will play first song
-                                await player.setFilePath(
-                                    data[ref.read(currentPlayingIndex)].data);
-                                player.play();
-                              }
-                            },
-                            color: Colors.deepPurple,
-                            iconSize: 48.0,
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.skip_next),
-                            onPressed: () {
-                              if (player.playing) {
-                                player.pause();
-                                if (ref.watch(currentPlayingIndex) !=
-                                    data.length - 1) {
-                                  // add one in to current playing index
-                                  ref
-                                          .watch(currentPlayingIndex.notifier)
-                                          .state =
-                                      ref.read(currentPlayingIndex) + 1;
-                                }
-                                // play music in current index
-                                player.setFilePath(
-                                    data[ref.read(currentPlayingIndex)].data);
-                                player.play();
-                              } else {
-                                if (ref.watch(currentPlayingIndex) !=
-                                    data.length - 1) {
-                                  // add  one in to current playing index
-                                  ref
-                                          .watch(currentPlayingIndex.notifier)
-                                          .state =
-                                      ref.read(currentPlayingIndex) + 1;
-                                }
-                              }
-                            },
-                            color: Colors.deepPurple,
-                          ),
+                          // buttons for controll next,previous and paus/play
+                          skipPreviosButton(player, ref, data),
+                          pauseAndPlayButton(isPlaying, player, ref, data),
+                          skipNextButton(player, ref, data)
                         ],
                       ),
                     ),
+                    // progress bar for controll the play
                     bottom: PreferredSize(
                       preferredSize:
                           Size(double.infinity, context.screenHeight(50)),
-                      child: ProgressIndicatingWidget(
-                        data: data,
-                      ),
+                      child: const ProgressIndicatingWidget(),
                     ),
                   ),
                   // mp3 files stored in local storage
@@ -163,7 +103,9 @@ class HomePage extends ConsumerWidget {
                       childCount: data.length,
                       (context, index) => Card(
                         child: PlayListTile(
-                          song: data[index],
+                          artist: data[index].artist!,
+                          data: data[index].data,
+                          title: data[index].title,
                           index: index,
                         ),
                       ),

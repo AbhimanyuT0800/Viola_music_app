@@ -7,13 +7,13 @@ part 'playing_and_pause_parovider.g.dart';
 // provider for playing music
 @riverpod
 Future<void> playMusic(PlayMusicRef ref, SongModel model) {
-  return ref.watch(playMusicCaseProvider).playCurrentMusic(model);
+  return ref.read(playMusicCaseProvider).playCurrentMusic(model);
 }
 
 // provider for pause music
 @riverpod
 Future<void> pauseMusic(PauseMusicRef ref, SongModel model) {
-  return ref.watch(playMusicCaseProvider).pauseCurrentMusic(model);
+  return ref.read(playMusicCaseProvider).pauseCurrentMusic(model);
 }
 
 // provider for current state

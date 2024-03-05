@@ -6,12 +6,11 @@ part of 'get_all_music.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getAllMusicHash() => r'47c588faa36e0ce157d64a37d268639013336a29';
+String _$getAllMusicHash() => r'61c87759a01b2a42204599525834cb5677a65b1a';
 
 /// See also [getAllMusic].
 @ProviderFor(getAllMusic)
-final getAllMusicProvider =
-    AutoDisposeFutureProvider<List<model.SongModel>>.internal(
+final getAllMusicProvider = AutoDisposeFutureProvider<List<SongModel>>.internal(
   getAllMusic,
   name: r'getAllMusicProvider',
   debugGetCreateSourceHash:
@@ -20,6 +19,6 @@ final getAllMusicProvider =
   allTransitiveDependencies: null,
 );
 
-typedef GetAllMusicRef = AutoDisposeFutureProviderRef<List<model.SongModel>>;
+typedef GetAllMusicRef = AutoDisposeFutureProviderRef<List<SongModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

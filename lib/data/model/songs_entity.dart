@@ -4,16 +4,13 @@ import 'package:objectbox/objectbox.dart';
 class SongsEntity {
   @Id()
   int? id;
-  int? songId;
-  String? uri;
-  String? name;
+
+  String? title;
   String? artist;
-  String? path;
+  String? data;
   SongsEntity(
       {this.id = 0,
-      required this.songId,
-      required this.uri,
       required this.artist,
-      required this.name,
-      required this.path});
+      required this.title,
+      required this.data});
 }

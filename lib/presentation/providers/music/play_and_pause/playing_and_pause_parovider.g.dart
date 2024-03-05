@@ -6,7 +6,7 @@ part of 'playing_and_pause_parovider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$playMusicHash() => r'400f8ae34bfdc23960f55d7f3bf6b56208a87320';
+String _$playMusicHash() => r'40eb7ea08d7d340457114d7a60fed88be3cdc35e';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -154,7 +154,7 @@ class _PlayMusicProviderElement extends AutoDisposeFutureProviderElement<void>
   SongModel get model => (origin as PlayMusicProvider).model;
 }
 
-String _$pauseMusicHash() => r'12d4bac55c0ca9738525928c171b28e4f2f5fbfc';
+String _$pauseMusicHash() => r'bfccc0d3e767c10f081c82031ad05a8731ff733f';
 
 /// See also [pauseMusic].
 @ProviderFor(pauseMusic)

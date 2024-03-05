@@ -23,7 +23,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(1, 4936908775695531646),
       name: 'SongsEntity',
-      lastPropertyId: const obx_int.IdUid(6, 9171800041686754558),
+      lastPropertyId: const obx_int.IdUid(8, 2794371000411286597),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -32,28 +32,18 @@ final _entities = <obx_int.ModelEntity>[
             type: 6,
             flags: 1),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 1267954315694041181),
-            name: 'songId',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 8704805100313453937),
-            name: 'uri',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 8626951066153139958),
-            name: 'name',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
             id: const obx_int.IdUid(5, 1547261702909263532),
             name: 'artist',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 9171800041686754558),
-            name: 'path',
+            id: const obx_int.IdUid(7, 3325498367957140990),
+            name: 'title',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 2794371000411286597),
+            name: 'data',
             type: 9,
             flags: 0)
       ],
@@ -102,7 +92,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
       retiredIndexUids: const [],
-      retiredPropertyUids: const [],
+      retiredPropertyUids: const [
+        1267954315694041181,
+        8626951066153139958,
+        9171800041686754558,
+        8704805100313453937
+      ],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -118,21 +113,17 @@ obx_int.ModelDefinition getObjectBoxModel() {
           object.id = id;
         },
         objectToFB: (SongsEntity object, fb.Builder fbb) {
-          final uriOffset =
-              object.uri == null ? null : fbb.writeString(object.uri!);
-          final nameOffset =
-              object.name == null ? null : fbb.writeString(object.name!);
           final artistOffset =
               object.artist == null ? null : fbb.writeString(object.artist!);
-          final pathOffset =
-              object.path == null ? null : fbb.writeString(object.path!);
-          fbb.startTable(7);
+          final titleOffset =
+              object.title == null ? null : fbb.writeString(object.title!);
+          final dataOffset =
+              object.data == null ? null : fbb.writeString(object.data!);
+          fbb.startTable(9);
           fbb.addInt64(0, object.id ?? 0);
-          fbb.addInt64(1, object.songId);
-          fbb.addOffset(2, uriOffset);
-          fbb.addOffset(3, nameOffset);
           fbb.addOffset(4, artistOffset);
-          fbb.addOffset(5, pathOffset);
+          fbb.addOffset(6, titleOffset);
+          fbb.addOffset(7, dataOffset);
           fbb.finish(fbb.endTable());
           return object.id ?? 0;
         },
@@ -141,23 +132,17 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final rootOffset = buffer.derefObject(0);
           final idParam =
               const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 4);
-          final songIdParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 6);
-          final uriParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 8);
           final artistParam = const fb.StringReader(asciiOptimization: true)
               .vTableGetNullable(buffer, rootOffset, 12);
-          final nameParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 10);
-          final pathParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 14);
+          final titleParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 16);
+          final dataParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 18);
           final object = SongsEntity(
               id: idParam,
-              songId: songIdParam,
-              uri: uriParam,
               artist: artistParam,
-              name: nameParam,
-              path: pathParam);
+              title: titleParam,
+              data: dataParam);
 
           return object;
         })
@@ -172,23 +157,15 @@ class SongsEntity_ {
   static final id =
       obx.QueryIntegerProperty<SongsEntity>(_entities[0].properties[0]);
 
-  /// see [SongsEntity.songId]
-  static final songId =
-      obx.QueryIntegerProperty<SongsEntity>(_entities[0].properties[1]);
-
-  /// see [SongsEntity.uri]
-  static final uri =
-      obx.QueryStringProperty<SongsEntity>(_entities[0].properties[2]);
-
-  /// see [SongsEntity.name]
-  static final name =
-      obx.QueryStringProperty<SongsEntity>(_entities[0].properties[3]);
-
   /// see [SongsEntity.artist]
   static final artist =
-      obx.QueryStringProperty<SongsEntity>(_entities[0].properties[4]);
+      obx.QueryStringProperty<SongsEntity>(_entities[0].properties[1]);
 
-  /// see [SongsEntity.path]
-  static final path =
-      obx.QueryStringProperty<SongsEntity>(_entities[0].properties[5]);
+  /// see [SongsEntity.title]
+  static final title =
+      obx.QueryStringProperty<SongsEntity>(_entities[0].properties[2]);
+
+  /// see [SongsEntity.data]
+  static final data =
+      obx.QueryStringProperty<SongsEntity>(_entities[0].properties[3]);
 }
