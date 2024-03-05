@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/data/model/songs_entity.dart';
-import 'package:music_app/presentation/providers/db_music/music_db.dart';
+import 'package:music_app/presentation/providers/fav_db_music/music_db.dart';
 import 'package:music_app/presentation/widgets/home_widgets/play_list_tile_widget.dart';
 
 class FavoritePage extends ConsumerWidget {

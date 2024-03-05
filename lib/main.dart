@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:music_app/data/data_source/object_box_repo_impl.dart/object_box_impl.dart';
+import 'package:music_app/data/data_source/object_box.dart/object_box_impl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'presentation/widgets/loading_screen/loading_screen.dart';

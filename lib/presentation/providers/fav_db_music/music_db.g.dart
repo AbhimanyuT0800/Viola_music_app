@@ -6,7 +6,7 @@ part of 'music_db.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$musicDbHash() => r'c28be496d359b2ce1fbeca931747dad03c2c3b96';
+String _$musicDbHash() => r'95716e0c463191c95f9d6437b3fe5a2c053d1ea6';
 
 /// See also [MusicDb].
 @ProviderFor(MusicDb)

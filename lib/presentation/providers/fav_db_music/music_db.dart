@@ -1,4 +1,4 @@
-import 'package:music_app/data/data_source/object_box_repo_impl.dart/object_box_impl.dart';
+import 'package:music_app/data/data_source/object_box.dart/object_box_impl.dart';
 import 'package:music_app/data/model/songs_entity.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -13,6 +13,11 @@ class MusicDb extends _$MusicDb {
 
   void addSongs(SongsEntity song) {
     ObjectBoxImpl.box.put(song);
+    state = ObjectBoxImpl.box.getAll();
+  }
+
+  void removeSongs(int id) {
+    ObjectBoxImpl.box.remove(id);
     state = ObjectBoxImpl.box.getAll();
   }
 }

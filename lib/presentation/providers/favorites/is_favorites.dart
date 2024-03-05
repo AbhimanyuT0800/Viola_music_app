@@ -1,21 +1,24 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/data/model/songs_entity.dart';
-import 'package:music_app/presentation/providers/db_music/music_db.dart';
+import 'package:music_app/presentation/providers/fav_db_music/music_db.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-// part 'is_favorites.g.dart';
+part 'is_favorites.g.dart';
 
-// @riverpod
-// bool isFav(IsFavRef ref, {required String data}) {
-//   bool isFav = false;
-//   List<SongsEntity> listOfmusic = ref.read(musicDbProvider);
-//   for (SongsEntity model in listOfmusic) {
-//     if (model.data == data) {
-//       isFav = true;
-//       break;
-//     }
-//   }
-//   return isFav;
-// }
+class CheckIsFav {
+  bool isFav({required String data, required List<SongsEntity> listOfmusic}) {
+    bool isFav = false;
 
-final isFavProvider = StateProvider<bool>((ref) => false);
+    for (SongsEntity model in listOfmusic) {
+      if (model.data == data) {
+        isFav = true;
+        break;
+      }
+    }
+    return isFav;
+  }
+}
+
+@riverpod
+bool isFav(IsFavRef ref, {required String data}) {
+  return CheckIsFav().isFav(data: data, listOfmusic: ref.read(musicDbProvider));
+}
