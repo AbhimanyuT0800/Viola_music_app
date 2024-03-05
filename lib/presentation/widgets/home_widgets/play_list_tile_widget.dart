@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:music_app/data/model/songs_entity.dart';
 import 'package:music_app/presentation/providers/current_playing/is_palying.dart';
 import 'package:music_app/presentation/providers/current_playing/music_player_provider.dart';
 import 'package:music_app/presentation/providers/fav_db_music/music_db.dart';
 import 'package:music_app/presentation/providers/favorites/is_favorites.dart';
+import 'package:music_app/presentation/providers/play_list/get_all_music_data.dart';
 import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
 
 class PlayListTile extends ConsumerWidget {
@@ -21,7 +23,7 @@ class PlayListTile extends ConsumerWidget {
   final String title;
   final String artist;
 
-  /// method to find the id(from data base) of current song
+  /// method to find the id(from data base) of fav song
   int getMusicEntity(
       {required String data, required List<SongsEntity> dbSongs}) {
     int id = 0;
@@ -42,9 +44,13 @@ class PlayListTile extends ConsumerWidget {
           // if it is playing any song it will pause
           player.pause();
 
-          // set file path
-          await player.setFilePath(data);
-          // play song
+          //  get list of audio source
+          final List<AudioSource> source =
+              ref.read(getAllMusicPlayListProvider);
+// Load and play the playlist
+          await player.setAudioSource(
+              ConcatenatingAudioSource(children: source),
+              initialIndex: index);
           player.play();
           // update current index of playing song
           ref.watch(currentPlayingIndex.notifier).state = index;

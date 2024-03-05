@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'get_all_music_data.g.dart';
 
 @riverpod
-ConcatenatingAudioSource getAllMusicPlayList(GetAllMusicPlayListRef ref) {
+List<AudioSource> getAllMusicPlayList(GetAllMusicPlayListRef ref) {
   return ListOfAllMusic()
       .getAllPlayList(data: ref.read(getAllMusicProvider).value!);
 }

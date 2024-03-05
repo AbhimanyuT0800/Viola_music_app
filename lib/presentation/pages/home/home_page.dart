@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:music_app/domain/usecase/fetch_all_music_case.dart';
 import 'package:music_app/presentation/pages/favorite/favorites_page.dart';
 import 'package:music_app/presentation/providers/current_playing/is_palying.dart';
 import 'package:music_app/presentation/providers/current_playing/music_player_provider.dart';
@@ -15,17 +14,15 @@ import 'package:music_app/presentation/widgets/home_widgets/current_playing_dtls
 import 'package:music_app/presentation/widgets/home_widgets/play_list_tile_widget.dart';
 import 'package:music_app/presentation/widgets/home_widgets/progress_indicator.dart';
 import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
-import 'package:on_audio_query/on_audio_query.dart';
 
 class HomePage extends ConsumerWidget {
   final ScrollController scrollController;
 
-  HomePage({
+  const HomePage({
     super.key,
     required this.scrollController,
   });
 
-  final Future<List<SongModel>> allSongs = FetchAudioFiles().fetchAudio();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // provider for music is playing or not
@@ -72,8 +69,7 @@ class HomePage extends ConsumerWidget {
                   ),
                   // topside section which contain data of current playing music
                   SliverToBoxAdapter(
-                    child: currentPlayingMusic(
-                        data[ref.watch(currentPlayingIndex)]),
+                    child: currentPlayingMusic(data[player.currentIndex ?? 0]),
                   ),
                   // music controlls section
                   SliverAppBar(

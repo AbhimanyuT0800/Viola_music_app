@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/data/model/songs_entity.dart';
 import 'package:music_app/presentation/providers/current_playing/is_palying.dart';
 import 'package:music_app/presentation/providers/current_playing/music_player_provider.dart';
-import 'package:music_app/presentation/providers/db_music/music_db.dart';
+import 'package:music_app/presentation/providers/fav_db_music/music_db.dart';
+import 'package:music_app/presentation/providers/favorites/is_favorites.dart';
 import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
 
 class PlayListTile extends ConsumerWidget {
@@ -20,28 +21,34 @@ class PlayListTile extends ConsumerWidget {
   final String title;
   final String artist;
 
-  bool isFav({required String data, required WidgetRef ref}) {
-    bool isFav = false;
-    List<SongsEntity> listOfmusic = ref.read(musicDbProvider);
-    for (SongsEntity model in listOfmusic) {
-      if (model.data == data) {
-        isFav = true;
-        break;
+  /// method to find the id(from data base) of current song
+  int getMusicEntity(
+      {required String data, required List<SongsEntity> dbSongs}) {
+    int id = 0;
+    for (SongsEntity entity in dbSongs) {
+      if (entity.data == data) {
+        id = entity.id!;
       }
     }
-    return isFav;
+    return id;
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final player = ref.watch(musicPlayerProvider);
     return ListTile(
+        // play the song contains
         onTap: () async {
+          // if it is playing any song it will pause
           player.pause();
 
+          // set file path
           await player.setFilePath(data);
+          // play song
           player.play();
+          // update current index of playing song
           ref.watch(currentPlayingIndex.notifier).state = index;
+          // togle isplaying provider
           ref.watch(isPlayingProvider.notifier).state = true;
         },
         // current imge of the music
@@ -80,10 +87,20 @@ class PlayListTile extends ConsumerWidget {
               ),
               IconButton(
                 onPressed: () {
-                  ref.read(musicDbProvider.notifier).addSongs(
-                      SongsEntity(artist: artist, title: title, data: data));
+                  /// check if the song is favorite
+                  ref.read(isFavProvider(data: data))
+
+                      /// if the song is favorite it remove from database
+                      ? ref.read(musicDbProvider.notifier).removeSongs(
+                          getMusicEntity(
+                              dbSongs: ref.read(musicDbProvider), data: data))
+
+                      /// if the song is not in the data base it will add to it
+                      : ref.read(musicDbProvider.notifier).addSongs(SongsEntity(
+                          artist: artist, title: title, data: data));
+                  ref.invalidate(isFavProvider);
                 },
-                icon: isFav(data: data, ref: ref)
+                icon: ref.watch(IsFavProvider(data: data))
                     ? const Icon(
                         Icons.favorite,
                         color: Colors.red,

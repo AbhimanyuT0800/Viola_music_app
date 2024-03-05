@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music_app/presentation/providers/current_playing/is_palying.dart';
+import 'package:music_app/presentation/providers/play_list/get_all_music_data.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 IconButton pauseAndPlayButton(
@@ -22,7 +23,11 @@ IconButton pauseAndPlayButton(
             !ref.watch(isPlayingProvider);
         // if it is not playing a song play last played song
         //?? it will play first song
-        await player.setFilePath(data[ref.read(currentPlayingIndex)].data);
+        //  get list of audio source
+        final List<AudioSource> source = ref.read(getAllMusicPlayListProvider);
+// Load and play the playlist
+        await player.setAudioSource(ConcatenatingAudioSource(children: source),
+            initialIndex: ref.read(currentPlayingIndex));
         player.play();
       }
     },
