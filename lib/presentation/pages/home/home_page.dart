@@ -69,11 +69,13 @@ class HomePage extends ConsumerWidget {
                   ),
                   // topside section which contain data of current playing music
                   SliverToBoxAdapter(
-                    child: currentPlayingMusic(data[player.currentIndex ?? 0]),
+                    child: currentPlayingMusic(
+                        data[ref.watch(currentPlayingIndex)]),
                   ),
                   // music controlls section
                   SliverAppBar(
                     pinned: true,
+                    toolbarHeight: context.screenHeight(100),
                     title: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Row(

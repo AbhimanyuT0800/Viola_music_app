@@ -1,114 +1,40 @@
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:music_app/data/model/songs_entity.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:music_app/presentation/providers/current_playing/is_palying.dart';
 import 'package:music_app/presentation/providers/current_playing/music_player_provider.dart';
-import 'package:music_app/presentation/providers/fav_db_music/music_db.dart';
-import 'package:music_app/presentation/providers/favorites/is_favorites.dart';
 import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
-class PlayListTile extends ConsumerWidget {
-  const PlayListTile({
+class ProgressIndicatingWidget extends ConsumerWidget {
+  const ProgressIndicatingWidget({
     super.key,
-    required this.title,
-    required this.artist,
-    required this.data,
-    required this.index,
   });
-
-  final int index;
-  final String data;
-  final String title;
-  final String artist;
-
-  /// method to find the id(from data base) of current song
-  int getMusicEntity(
-      {required String data, required List<SongsEntity> dbSongs}) {
-    int id = 0;
-    for (SongsEntity entity in dbSongs) {
-      if (entity.data == data) {
-        id = entity.id!;
-      }
-    }
-    return id;
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final player = ref.watch(musicPlayerProvider);
-    return ListTile(
-        // play the song contains
-        onTap: () async {
-          // if it is playing any song it will pause
-          player.pause();
+    final AudioPlayer player = ref.read(musicPlayerProvider);
 
-          // set file path
-          await player.setFilePath(data);
-          // play song
-          player.play();
-          // update current index of playing song
-          ref.watch(currentPlayingIndex.notifier).state = index;
-          // togle isplaying provider
-          ref.watch(isPlayingProvider.notifier).state = true;
-        },
-        // current imge of the music
-        leading: const CircleAvatar(
-          backgroundImage: AssetImage('assets/images/img_onboarding.jpg'),
-        ),
-        // title of the song
-        title: Text(
-          title,
-          overflow: TextOverflow.ellipsis,
-          maxLines: 2,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.deepPurple,
-          ),
-        ),
-        // name of the artist
-        subtitle: Text(
-          artist,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
-            color: Colors.deepPurpleAccent,
-          ),
-        ),
-        trailing: SizedBox(
-          width: context.screenWidth(114),
-          child: Row(
-            children: [
-              PopupMenuButton(
-                itemBuilder: (context) => [
-                  const PopupMenuItem(child: Text('share')),
-                  const PopupMenuItem(child: Text('delete')),
-                  const PopupMenuItem(child: Text('about'))
-                ],
-              ),
-              IconButton(
-                onPressed: () {
-                  /// check if the song is favorite
-                  ref.read(isFavProvider(data: data))
-
-                      /// if the song is favorite it remove from database
-                      ? ref.read(musicDbProvider.notifier).removeSongs(
-                          getMusicEntity(
-                              dbSongs: ref.read(musicDbProvider), data: data))
-
-                      /// if the song is not in the data base it will add to it
-                      : ref.read(musicDbProvider.notifier).addSongs(SongsEntity(
-                          artist: artist, title: title, data: data));
-                  ref.invalidate(isFavProvider);
-                },
-                icon: ref.watch(IsFavProvider(data: data))
-                    ? const Icon(
-                        Icons.favorite,
-                        color: Colors.red,
-                      )
-                    : const Icon(Icons.favorite),
-              )
-            ],
-          ),
-        ));
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: context.screenHeight(30),
+          vertical: context.screenHeight(20)),
+      child: StreamBuilder(
+          stream: player.positionStream,
+          builder: (context, snapShot) {
+            if (ref.read(currentPlayingIndex) != player.currentIndex) {
+              ref.watch(currentPlayingIndex.notifier).state =
+                  player.currentIndex ?? 0;
+            }
+            return ProgressBar(
+              progress: snapShot.data ?? Duration.zero,
+              total: ref.watch(musicPlayerProvider).duration ?? Duration.zero,
+              onSeek: (duration) {
+                ref.read(musicPlayerProvider).seek(duration);
+              },
+            );
+          }),
+    );
   }
 }
