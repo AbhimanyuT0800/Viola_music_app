@@ -21,13 +21,7 @@ IconButton pauseAndPlayButton(
         // change isPlaying provider
         ref.read(isPlayingProvider.notifier).state =
             !ref.watch(isPlayingProvider);
-        // if it is not playing a song play last played song
-        //?? it will play first song
-        //  get list of audio source
-        final List<AudioSource> source = ref.read(getAllMusicPlayListProvider);
-// Load and play the playlist
-        await player.setAudioSource(ConcatenatingAudioSource(children: source),
-            initialIndex: ref.read(currentPlayingIndex));
+
         player.play();
       }
     },
