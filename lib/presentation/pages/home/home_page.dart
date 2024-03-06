@@ -72,33 +72,28 @@ class HomePage extends ConsumerWidget {
                     child: currentPlayingMusic(data, ref),
                   ),
                   // music controlls section
-                  ref.read(isPlayingProvider)
-                      ? SliverAppBar(
-                          pinned: true,
-                          toolbarHeight: context.screenHeight(100),
-                          title: Container(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                // buttons for controll next,previous and paus/play
-                                skipPreviosButton(player, ref, data),
-                                pauseAndPlayButton(
-                                    isPlaying, player, ref, data),
-                                skipNextButton(player, ref, data)
-                              ],
-                            ),
-                          ),
-                          // progress bar for controll the play
-                          bottom: PreferredSize(
-                            preferredSize:
-                                Size(double.infinity, context.screenHeight(50)),
-                            child: const ProgressIndicatingWidget(),
-                          ),
-                        )
-                      : const SliverPadding(padding: EdgeInsets.only(top: 0)),
-                  // mp3 files stored in local storage
+                  SliverAppBar(
+                    pinned: true,
+                    toolbarHeight: context.screenHeight(100),
+                    title: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          // buttons for controll next,previous and paus/play
+                          skipPreviosButton(player, ref, data),
+                          pauseAndPlayButton(isPlaying, player, ref, data),
+                          skipNextButton(player, ref, data)
+                        ],
+                      ),
+                    ),
+                    // progress bar for controll the play
+                    bottom: PreferredSize(
+                      preferredSize:
+                          Size(double.infinity, context.screenHeight(50)),
+                      child: const ProgressIndicatingWidget(),
+                    ),
+                  ), // mp3 files stored in local storage
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       childCount: data.length,
