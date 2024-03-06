@@ -6,22 +6,24 @@ import 'package:music_app/presentation/providers/current_playing/is_palying.dart
 import 'package:music_app/presentation/providers/current_playing/music_player_provider.dart';
 import 'package:music_app/presentation/providers/fav_db_music/music_db.dart';
 import 'package:music_app/presentation/providers/favorites/is_favorites.dart';
+import 'package:music_app/presentation/providers/music/get_all_music.dart';
 import 'package:music_app/presentation/providers/play_list/get_all_music_data.dart';
 import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
 
 class PlayListTile extends ConsumerWidget {
-  const PlayListTile({
-    super.key,
-    required this.title,
-    required this.artist,
-    required this.data,
-    required this.index,
-  });
+  const PlayListTile(
+      {super.key,
+      required this.title,
+      required this.artist,
+      required this.data,
+      required this.index,
+      required this.isPlayingFromFav});
 
   final int index;
   final String data;
   final String title;
   final String artist;
+  final bool isPlayingFromFav;
 
   /// method to find the id(from data base) of fav song
   int getMusicEntity(
@@ -41,21 +43,38 @@ class PlayListTile extends ConsumerWidget {
     return ListTile(
         // play the song contains
         onTap: () async {
-          // if it is playing any song it will pause
+          // if it is playing any song it will pause else do nothing
           player.pause();
 
-          //  get list of audio source
-          final List<AudioSource> source =
-              ref.read(getAllMusicPlayListProvider);
-// Load and play the playlist
-          await player.setAudioSource(
-              ConcatenatingAudioSource(children: source),
-              initialIndex: index);
-          player.play();
-          // update current index of playing song
-          ref.watch(currentPlayingIndex.notifier).state = index;
-          // togle isplaying provider
-          ref.watch(isPlayingProvider.notifier).state = true;
+          if (!isPlayingFromFav) {
+            //  get list of audio source
+            final List<AudioSource> source = ref.read(
+                getAllMusicPlayListProvider(
+                    data: ref.read(getAllMusicProvider).value!));
+            // Load and play the playlist
+            await player.setAudioSource(
+                ConcatenatingAudioSource(children: source),
+                initialIndex: index);
+            player.play();
+            // update current index of playing song
+            ref.watch(currentPlayingIndex.notifier).state = index;
+            // togle isplaying provider
+            ref.watch(isPlayingProvider.notifier).state = true;
+          } else {
+            //  get list of audio source
+            final List<AudioSource> source = ref.read(
+                getAllMusicPlayListProvider(
+                    data: ref.read(getAllMusicProvider).value!));
+            // Load and play the playlist
+            await player.setAudioSource(
+                ConcatenatingAudioSource(children: source),
+                initialIndex: index);
+            player.play();
+            // update current index of playing song
+            ref.watch(currentPlayingIndex.notifier).state = index;
+            // togle isplaying provider
+            ref.watch(isPlayingProvider.notifier).state = true;
+          }
         },
         // current imge of the music
         leading: const CircleAvatar(

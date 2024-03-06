@@ -31,6 +31,7 @@ class FavoritePage extends ConsumerWidget {
                 itemCount: favSongs.length,
                 itemBuilder: (context, index) => Card(
                   child: PlayListTile(
+                    isPlayingFromFav: true,
                     artist: favSongs[index].artist ?? 'unknown',
                     data: favSongs[index].data!,
                     title: favSongs[index].title!,

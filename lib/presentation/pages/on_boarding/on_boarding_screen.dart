@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:music_app/presentation/pages/bottom_navigation/bottom_navigation_page.dart';
-import 'package:music_app/presentation/widgets/loading_screen/text_field.dart';
+import 'package:music_app/presentation/pages/on_boarding/loading_screen/text_field.dart';
 import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -23,6 +23,7 @@ class OnBoardingScreen extends StatelessWidget {
               itemCount: 100,
               itemBuilder: (context, index) {
                 final int currentIndex;
+                // allow infinit scrolling page page view
                 if (index % 2 == 0) {
                   currentIndex = 1;
                 } else {

@@ -4,9 +4,12 @@ import 'package:just_audio/just_audio.dart';
 import 'package:music_app/presentation/providers/current_playing/music_player_provider.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
+// Builder for currently playing song details
 StreamBuilder currentPlayingMusic(List<SongModel> song, WidgetRef ref) {
+  // AudioPlayer obj
   final AudioPlayer player = ref.read(musicPlayerProvider);
   return StreamBuilder(
+      // stream of current playing index
       stream: player.currentIndexStream,
       builder: (context, snapShot) {
         return Container(
@@ -40,6 +43,8 @@ StreamBuilder currentPlayingMusic(List<SongModel> song, WidgetRef ref) {
               ),
               const SizedBox(height: 10.0),
               Text(
+                // if it is playing shows its details else shows details of
+                // first file
                 song[snapShot.data ?? 0].displayName,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
@@ -49,7 +54,9 @@ StreamBuilder currentPlayingMusic(List<SongModel> song, WidgetRef ref) {
                 ),
               ),
               Text(
-                song[snapShot.data ?? 0].artist ?? 'unknown',
+                // if it is playing shows its details else shows details of
+                // first file
+                song[snapShot.data ?? 0].album ?? 'unknown',
                 style: const TextStyle(
                   fontSize: 18.0,
                   color: Colors.white70,

@@ -25,6 +25,7 @@ dependencies:
   flutter_floating_bottom_bar: ^1.2.0
   just_audio: ^0.9.36
   audio_video_progress_bar: ^2.0.2
+  just_audio_background: ^0.0.1-beta.11
  
 
 dev_dependencies:

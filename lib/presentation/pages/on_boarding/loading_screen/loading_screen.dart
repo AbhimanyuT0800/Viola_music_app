@@ -3,7 +3,6 @@ import 'package:lottie/lottie.dart';
 import 'package:music_app/presentation/pages/on_boarding/on_boarding_screen.dart';
 
 import 'package:page_transition/page_transition.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
@@ -16,11 +15,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    requestPermission();
-  }
-
-  requestPermission() async {
-    await Permission.storage.request();
   }
 
   @override
