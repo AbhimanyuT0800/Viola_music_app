@@ -73,6 +73,7 @@ class HomePage extends ConsumerWidget {
                   ),
                   // music controlls section
                   SliverAppBar(
+                    automaticallyImplyLeading: false,
                     pinned: true,
                     toolbarHeight: context.screenHeight(100),
                     title: Container(

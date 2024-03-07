@@ -1,9 +1,7 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:music_app/presentation/providers/current_playing/is_palying.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 /// method for skip to next song

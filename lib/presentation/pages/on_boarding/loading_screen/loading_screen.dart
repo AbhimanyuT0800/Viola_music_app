@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:music_app/data/repositories/shared_pref_repo_impl/shared_perf_impl.dart';
+import 'package:music_app/presentation/pages/bottom_navigation/bottom_navigation_page.dart';
 import 'package:music_app/presentation/pages/on_boarding/on_boarding_screen.dart';
 
 import 'package:page_transition/page_transition.dart';
@@ -24,7 +26,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
       Navigator.pushReplacement(
         context,
         PageTransition(
-            child: OnBoardingScreen(), type: PageTransitionType.fade),
+            // if storage access already granded navigate to home screen directly
+            // else navigate to onBoarding screen
+            child: SharedPrefImpl.getSharedPref()
+                ? MusicBottomSheet()
+                : OnBoardingScreen(),
+            type: PageTransitionType.fade),
       );
     });
 

@@ -1,17 +1,27 @@
 import 'package:music_app/domain/repositories/shared_pref_repo/shared_pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SharedPrefImpl implements SharedPref {
-  final Future<SharedPreferences> pref = SharedPreferences.getInstance();
+class SharedPrefImpl {
+  static late final SharedPreferences pref;
 
-  @override
-  Future<void> setSharedpref({required bool status}) async {
-    // pref = await SharedPreferences.getInstance();
-    await (await pref).setBool('status', status);
+  SharedPrefImpl._create(SharedPreferences preferences) {
+    pref = preferences;
+  }
+  // method for calling private constractor and create an instance for sharedpref
+  static create() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    return SharedPrefImpl._create(pref);
   }
 
-  @override
-  Future<bool> getSharedPref() async {
-    return (await pref).getBool('status')!;
+// set sharepref status
+
+  static void setSharedpref({required bool status}) {
+    pref.setBool('status', status);
+  }
+
+// get shared pref status
+
+  static bool getSharedPref() {
+    return pref.getBool('status') ?? false;
   }
 }

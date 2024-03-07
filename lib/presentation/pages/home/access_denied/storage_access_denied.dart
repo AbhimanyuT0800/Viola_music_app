@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/data/repositories/shared_pref_repo_impl/shared_perf_impl.dart';
 import 'package:music_app/presentation/pages/home/loading_screen/loading_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -21,9 +22,9 @@ class StorageAccessException extends StatelessWidget {
               IconButton(
                   onPressed: () async {
                     await Permission.storage.request();
-                    bool isGranded =
-                        await Permission.storage.request().isGranted;
-                    if (isGranded) {
+
+                    if (await Permission.storage.request().isGranted) {
+                      SharedPrefImpl.setSharedpref(status: true);
                       Future.sync(() => Navigator.push(
                             context,
                             MaterialPageRoute(
