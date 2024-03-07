@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:music_app/presentation/pages/play_list/shuffle_page.dart';
-import 'package:music_app/presentation/pages/play_list/songs_in_play_list.dart';
+import 'package:music_app/presentation/pages/play/shuffle_page.dart';
+import 'package:music_app/presentation/pages/play/songs_in_play_list.dart';
 import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
 
 class PlayListPage extends StatelessWidget {

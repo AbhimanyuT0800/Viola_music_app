@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/data/repositories/shared_pref_repo_impl/shared_perf_impl.dart';
+import 'package:music_app/presentation/pages/bottom_navigation/bottom_navigation_page.dart';
 import 'package:music_app/presentation/pages/home/loading_screen/loading_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -21,19 +22,21 @@ class StorageAccessException extends StatelessWidget {
               const Text('Storage Acccess Denied...!'),
               IconButton(
                   onPressed: () async {
+                    // ask for permission
                     await Permission.storage.request();
-
+                    // checks permission is granded then navigate to dirctly home page
                     if (await Permission.storage.request().isGranted) {
+                      // set sharePref true
                       SharedPrefImpl.setSharedpref(status: true);
                       Future.sync(() => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => LoadingScreen(),
+                              builder: (context) => const MusicBottomSheet(),
                             ),
                           ));
                     }
                   },
-                  icon: Icon(Icons.refresh))
+                  icon: const Icon(Icons.refresh))
             ],
           ),
         ),

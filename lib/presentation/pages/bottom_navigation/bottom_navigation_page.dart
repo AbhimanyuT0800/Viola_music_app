@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/presentation/pages/home/home_page.dart';
-import 'package:music_app/presentation/pages/play_list/play_list_page.dart';
+import 'package:music_app/presentation/pages/play/play_list_page.dart';
 import 'package:music_app/presentation/pages/search/search_page.dart';
 import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
 import 'package:scroll_to_hide/scroll_to_hide.dart';

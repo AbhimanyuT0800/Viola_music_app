@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music_app/data/model/songs_entity.dart';
+import 'package:music_app/presentation/pages/play/playing_page.dart';
 import 'package:music_app/presentation/providers/current_playing/is_palying.dart';
 import 'package:music_app/presentation/providers/current_playing/music_player_provider.dart';
 import 'package:music_app/presentation/providers/fav_db_music/music_db.dart';
@@ -60,25 +61,35 @@ class PlayListTile extends ConsumerWidget {
             ref.watch(currentPlayingIndex.notifier).state = index;
             // togle isplaying provider
             ref.watch(isPlayingProvider.notifier).state = true;
-          } else {
-            //  get list of audio source
-            final List<AudioSource> source = ref.read(
-                getAllMusicPlayListProvider(
-                    data: ref.read(getAllMusicProvider).value!));
-            // Load and play the playlist
-            await player.setAudioSource(
-                ConcatenatingAudioSource(children: source),
-                initialIndex: index);
-            player.play();
-            // update current index of playing song
-            ref.watch(currentPlayingIndex.notifier).state = index;
-            // togle isplaying provider
-            ref.watch(isPlayingProvider.notifier).state = true;
           }
+          // else {
+          //   //  get list of audio source
+          //   final List<AudioSource> source = ref.read(
+          //       getAllMusicPlayListProvider(
+          //           data: ref.read(getAllMusicProvider).value!));
+          //   // Load and play the playlist
+          //   await player.setAudioSource(
+          //       ConcatenatingAudioSource(children: source),
+          //       initialIndex: index);
+          //   player.play();
+          //   // update current index of playing song
+          //   ref.watch(currentPlayingIndex.notifier).state = index;
+          //   // togle isplaying provider
+          //   ref.watch(isPlayingProvider.notifier).state = true;
+          // }
         },
         // current imge of the music
-        leading: const CircleAvatar(
-          backgroundImage: AssetImage('assets/images/img_onboarding.jpg'),
+        leading: InkWell(
+          onTap: () {
+            // navigate to playing page when press the circle avatar of tile
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const CurrentPlayingPage()));
+          },
+          child: const CircleAvatar(
+            backgroundImage: AssetImage('assets/images/img_onboarding.jpg'),
+          ),
         ),
         // title of the song
         title: Text(

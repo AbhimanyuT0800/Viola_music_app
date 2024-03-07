@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:music_app/presentation/pages/favorite/favorites_page.dart';
+import 'package:music_app/presentation/pages/play/playing_page.dart';
 import 'package:music_app/presentation/providers/current_playing/is_palying.dart';
 import 'package:music_app/presentation/providers/current_playing/music_player_provider.dart';
 import 'package:music_app/presentation/providers/music/get_all_music.dart';
@@ -31,7 +32,7 @@ class HomePage extends ConsumerWidget {
     final player = ref.watch(musicPlayerProvider);
 
     return RefreshIndicator(
-      onRefresh: () async {
+      onRefresh: () {
         // delay for refresh indicator showing
         return Future.delayed(const Duration(seconds: 3));
       },
@@ -44,6 +45,7 @@ class HomePage extends ConsumerWidget {
                 slivers: [
                   // title app bar
                   SliverAppBar(
+                    automaticallyImplyLeading: false,
                     backgroundColor: Colors.deepPurple,
                     title: Text(
                       'Viola',
@@ -69,15 +71,25 @@ class HomePage extends ConsumerWidget {
                   ),
                   // topside section which contain data of current playing music
                   SliverToBoxAdapter(
-                    child: currentPlayingMusic(data, ref),
+                    child: InkWell(
+                        onTap: () {
+                          // navigate to playing page when tap on song details section
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const CurrentPlayingPage()));
+                        },
+                        child: currentPlayingMusic(data, ref)),
                   ),
                   // music controlls section
                   SliverAppBar(
                     automaticallyImplyLeading: false,
                     pinned: true,
-                    toolbarHeight: context.screenHeight(100),
+                    toolbarHeight: context.screenHeight(50),
                     title: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -88,12 +100,8 @@ class HomePage extends ConsumerWidget {
                         ],
                       ),
                     ),
-                    // progress bar for controll the play
-                    bottom: PreferredSize(
-                      preferredSize:
-                          Size(double.infinity, context.screenHeight(50)),
-                      child: const ProgressIndicatingWidget(),
-                    ),
+                    bottom: const PreferredSize(
+                        preferredSize: Size(100, 15), child: SizedBox()),
                   ), // mp3 files stored in local storage
                   SliverList(
                     delegate: SliverChildBuilderDelegate(

@@ -63,9 +63,12 @@ class OnBoardingScreen extends StatelessWidget {
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 35),
                   child: InkWell(
                     onTap: () async {
+                      // ask permission for storage
                       await Permission.storage.request();
                       if (await Permission.storage.isGranted) {
+                        // permission is granded set share pref true
                         SharedPrefImpl.setSharedpref(status: true);
+                        // then navigate directly to the home page
                         Future.sync(() => Navigator.pushReplacement(
                               context,
                               PageTransition(
@@ -73,6 +76,7 @@ class OnBoardingScreen extends StatelessWidget {
                                   type: PageTransitionType.fade),
                             ));
                       } else {
+                        // permission not allowed navigate to storageException page
                         Future.sync(() => Navigator.pushReplacement(
                               context,
                               PageTransition(

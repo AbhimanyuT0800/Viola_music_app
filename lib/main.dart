@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:music_app/data/data_source/object_box.dart/object_box_impl.dart';
 import 'package:music_app/data/repositories/shared_pref_repo_impl/shared_perf_impl.dart';
 import 'package:music_app/presentation/pages/home/access_denied/storage_access_denied.dart';
@@ -9,15 +10,18 @@ import 'presentation/pages/on_boarding/loading_screen/loading_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // create sharepref instace
   SharedPrefImpl.create();
+  // Just audio background
   await JustAudioBackground.init(
     androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
     androidNotificationChannelName: 'Audio playback',
     androidNotificationOngoing: true,
   );
+  // await for create object box
   await ObjectBoxImpl.create();
-  // await Permission.storage.request();
 
+// run app
   runApp(
     const ProviderScope(
       child: MainApp(),
@@ -30,12 +34,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: const Color(0xFF8e0e6d),
-      ),
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const LoadingScreen(),
+      home: LoadingScreen(),
     );
   }
 }
