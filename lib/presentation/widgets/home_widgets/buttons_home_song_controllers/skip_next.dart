@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
@@ -13,7 +15,7 @@ IconButton skipNextButton(
     onPressed: () {
       if (player.playing) {
         // pause current song and play the next song
-        player.pause();
+
         player.seekToNext();
         player.play();
       } else {

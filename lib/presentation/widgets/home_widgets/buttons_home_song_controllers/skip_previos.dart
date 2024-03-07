@@ -12,7 +12,6 @@ IconButton skipPreviosButton(
     onPressed: () {
       // pause the current song and play the next song
       if (player.playing) {
-        player.pause();
         player.seekToPrevious();
         player.play();
       } else {
