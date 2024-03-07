@@ -19,10 +19,6 @@ class CurrentPlayingPage extends ConsumerWidget {
     /// Audio player instance
     final AudioPlayer player = ref.read(musicPlayerProvider);
     int index = ref.watch(currentPlayingIndex);
-    // current index of song
-    // player.currentIndexStream.listen((event) {
-    //   index = player.currentIndex ?? 0;
-    // });
 
     return ref.read(getAllMusicProvider).when(
         data: (data) {
@@ -43,131 +39,138 @@ class CurrentPlayingPage extends ConsumerWidget {
                 },
               ),
             ),
-            body: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xFF673AB7),
-                    Color(0xFF290392),
-                  ],
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                ),
-              ),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 20),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.asset(
-                        'assets/images/img_onboarding.jpg',
-                        fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width * 0.7,
-                        height: MediaQuery.of(context).size.width * 0.7,
+            // builder for checks the index is changing or not
+            body: StreamBuilder(
+                stream: player.currentIndexStream,
+                builder: (context, snapShot) {
+                  return Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xFF673AB7),
+                          Color(0xFF290392),
+                        ],
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
                       ),
                     ),
-                    SizedBox(height: context.screenHeight(20)),
-                    Text(
-                      data[index ?? 0].displayName,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.roboto(
-                        fontSize: 30,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    SizedBox(height: context.screenHeight(15)),
-                    Text(
-                      'Artist Name',
-                      style: GoogleFonts.roboto(
-                        fontSize: 20,
-                        color: Colors.white.withOpacity(0.8),
-                      ),
-                    ),
-                    SizedBox(height: context.screenHeight(100)),
-                    const ProgressIndicatingWidget(),
-                    SizedBox(height: context.screenHeight(0)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.shuffle, color: Colors.white),
-                          onPressed: () {
-                            player.setShuffleModeEnabled(true);
-                          },
-                        ),
-                        SizedBox(width: context.screenWidth(20)),
-                        IconButton(
-                          icon: const Icon(Icons.skip_previous,
-                              size: 50, color: Colors.white),
-                          onPressed: () {
-                            // pause the current song and play the next song
-                            if (player.playing) {
-                              player.seekToPrevious();
-                              player.play();
-                            } else {
-                              //  just seek to next song
-                              player.seekToPrevious();
-                            }
-                          },
-                        ),
-                        SizedBox(width: context.screenWidth(20)),
-                        IconButton(
-                          icon: isPlaying
-                              ? const Icon(Icons.pause,
-                                  color: Colors.white, size: 60)
-                              : const Icon(Icons.play_arrow,
-                                  color: Colors.white, size: 60),
-                          onPressed: () {
-                            if (player.playing) {
-                              // change isPlaying provider
-                              ref.read(isPlayingProvider.notifier).state =
-                                  !ref.watch(isPlayingProvider);
-                              // pause current song if itis playing
-                              player.pause();
-                            } else {
-                              // change isPlaying provider
-                              ref.read(isPlayingProvider.notifier).state =
-                                  !ref.watch(isPlayingProvider);
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 20),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.asset(
+                              'assets/images/img_onboarding.jpg',
+                              fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width * 0.7,
+                              height: MediaQuery.of(context).size.width * 0.7,
+                            ),
+                          ),
+                          SizedBox(height: context.screenHeight(20)),
+                          Text(
+                            data[snapShot.data ?? 0].displayName,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.roboto(
+                              fontSize: 30,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          SizedBox(height: context.screenHeight(15)),
+                          Text(
+                            data[snapShot.data ?? 0].album ?? 'unknown',
+                            style: GoogleFonts.roboto(
+                              fontSize: 20,
+                              color: Colors.white.withOpacity(0.8),
+                            ),
+                          ),
+                          SizedBox(height: context.screenHeight(100)),
+                          const ProgressIndicatingWidget(),
+                          SizedBox(height: context.screenHeight(0)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.shuffle,
+                                    color: Colors.white),
+                                onPressed: () {
+                                  player.setShuffleModeEnabled(true);
+                                },
+                              ),
+                              SizedBox(width: context.screenWidth(20)),
+                              IconButton(
+                                icon: const Icon(Icons.skip_previous,
+                                    size: 50, color: Colors.white),
+                                onPressed: () {
+                                  // pause the current song and play the next song
+                                  if (player.playing) {
+                                    player.seekToPrevious();
+                                    player.play();
+                                  } else {
+                                    //  just seek to next song
+                                    player.seekToPrevious();
+                                  }
+                                },
+                              ),
+                              SizedBox(width: context.screenWidth(20)),
+                              IconButton(
+                                icon: isPlaying
+                                    ? const Icon(Icons.pause,
+                                        color: Colors.white, size: 60)
+                                    : const Icon(Icons.play_arrow,
+                                        color: Colors.white, size: 60),
+                                onPressed: () {
+                                  if (player.playing) {
+                                    // change isPlaying provider
+                                    ref.read(isPlayingProvider.notifier).state =
+                                        !ref.watch(isPlayingProvider);
+                                    // pause current song if itis playing
+                                    player.pause();
+                                  } else {
+                                    // change isPlaying provider
+                                    ref.read(isPlayingProvider.notifier).state =
+                                        !ref.watch(isPlayingProvider);
 
-                              player.play();
-                            }
-                          },
-                        ),
-                        SizedBox(width: context.screenWidth(20)),
-                        IconButton(
-                          icon: const Icon(Icons.skip_next,
-                              size: 50, color: Colors.white),
-                          onPressed: () {
-                            if (player.playing) {
-                              // pause current song and play the next song
+                                    player.play();
+                                  }
+                                },
+                              ),
+                              SizedBox(width: context.screenWidth(20)),
+                              IconButton(
+                                icon: const Icon(Icons.skip_next,
+                                    size: 50, color: Colors.white),
+                                onPressed: () {
+                                  if (player.playing) {
+                                    // pause current song and play the next song
 
-                              player.seekToNext();
-                              player.play();
-                            } else {
-                              // just seek to next song
-                              player.seekToNext();
-                            }
-                          },
-                        ),
-                        SizedBox(width: context.screenWidth(20)),
-                        IconButton(
-                          icon: const Icon(Icons.repeat, color: Colors.white),
-                          onPressed: () {
-                            // loop just once
-                            // TODO
-                            // player.setLoopMode(LoopMode.one);
-                          },
-                        ),
-                      ],
+                                    player.seekToNext();
+                                    player.play();
+                                  } else {
+                                    // just seek to next song
+                                    player.seekToNext();
+                                  }
+                                },
+                              ),
+                              SizedBox(width: context.screenWidth(20)),
+                              IconButton(
+                                icon: const Icon(Icons.repeat,
+                                    color: Colors.white),
+                                onPressed: () {
+                                  // loop just once
+                                  // TODO
+                                  // player.setLoopMode(LoopMode.one);
+                                },
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: context.screenHeight(20)),
+                        ],
+                      ),
                     ),
-                    SizedBox(height: context.screenHeight(20)),
-                  ],
-                ),
-              ),
-            ),
+                  );
+                }),
           );
         },
         error: (error, stackTrace) => Center(

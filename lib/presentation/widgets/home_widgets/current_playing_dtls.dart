@@ -13,7 +13,6 @@ StreamBuilder currentPlayingMusic(List<SongModel> song, WidgetRef ref) {
       // stream of current playing index
       stream: player.currentIndexStream,
       builder: (context, snapShot) {
-        ref.watch(currentPlayingIndex.notifier).state = snapShot.data ?? 0;
         return Container(
           padding: const EdgeInsets.all(16.0),
           decoration: const BoxDecoration(
