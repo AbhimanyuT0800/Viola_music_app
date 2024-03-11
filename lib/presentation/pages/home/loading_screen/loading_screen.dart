@@ -19,7 +19,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
     requestPermission();
   }
 
-  requestPermission() async {
+// request for permission
+  void requestPermission() async {
     await Permission.storage.request();
   }
 

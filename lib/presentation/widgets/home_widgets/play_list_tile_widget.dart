@@ -47,6 +47,13 @@ class PlayListTile extends ConsumerWidget {
           // if it is playing any song it will pause else do nothing
           player.pause();
 
+          // navigate to playing page when tap on song details section
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CurrentPlayingPage(),
+              ));
+
           if (!isPlayingFromFav) {
             //  get list of audio source
             final List<AudioSource> source = ref.read(

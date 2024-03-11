@@ -54,33 +54,11 @@ class HomePage extends ConsumerWidget {
                           fontSize: 30,
                           fontWeight: FontWeight.w700),
                     ),
-                    actions: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const FavoritePage()));
-                        },
-                        icon: const Icon(
-                          Icons.favorite,
-                          color: Colors.red,
-                        ),
-                      )
-                    ],
                   ),
                   // topside section which contain data of current playing music
                   SliverToBoxAdapter(
                     child: InkWell(
-                        onTap: () {
-                          // navigate to playing page when tap on song details section
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const CurrentPlayingPage()));
-                        },
-                        child: currentPlayingMusic(data, ref)),
+                        onTap: () {}, child: currentPlayingMusic(data, ref)),
                   ),
                   // music controlls section
                   SliverAppBar(

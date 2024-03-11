@@ -5,20 +5,15 @@ import 'package:music_app/presentation/providers/fav_db_music/music_db.dart';
 import 'package:music_app/presentation/widgets/home_widgets/play_list_tile_widget.dart';
 
 class FavoritePage extends ConsumerWidget {
-  const FavoritePage({super.key});
+  const FavoritePage({super.key, required this.controller});
 
+  final ScrollController controller;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     List<SongsEntity> favSongs = ref.read(musicDbProvider);
     return Scaffold(
         appBar: AppBar(
-          title: Text('Favorites'),
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back_ios),
-          ),
+          title: const Text('Favorites'),
         ),
         // checks the box contaning fav  is empty or not
         body: favSongs.isEmpty

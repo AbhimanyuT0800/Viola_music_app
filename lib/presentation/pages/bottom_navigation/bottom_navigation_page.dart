@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/presentation/pages/favorite/favorites_page.dart';
 import 'package:music_app/presentation/pages/home/home_page.dart';
-import 'package:music_app/presentation/pages/play/play_list_page.dart';
 import 'package:music_app/presentation/pages/search/search_page.dart';
 import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
 import 'package:scroll_to_hide/scroll_to_hide.dart';
@@ -19,15 +19,18 @@ class _MusicBottomSheetState extends State<MusicBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    // pages for navigate throw
     List<Widget> pages = [
       HomePage(scrollController: _scrollController),
       SearchPage(scrollController: _scrollController),
-      PlayListPage(scrollController: _scrollController),
+      FavoritePage(controller: _scrollController)
     ];
     return Scaffold(
       body: Stack(
         children: [
+          // shows selected page
           pages[currentIndex],
+          // scroll to hide methods
           Positioned(
             left: context.screenWidth(35),
             right: context.screenWidth(35),
@@ -46,6 +49,7 @@ class _MusicBottomSheetState extends State<MusicBottomSheet> {
                         color: Colors.white,
                         fontSize: 15,
                         fontWeight: FontWeight.w700),
+                        // update current index when tapped
                     onTap: (value) {
                       setState(() {
                         currentIndex = value;
@@ -72,7 +76,7 @@ class _MusicBottomSheetState extends State<MusicBottomSheet> {
                           label: 'Search'),
                       BottomNavigationBarItem(
                           icon: Icon(
-                            Icons.playlist_play,
+                            Icons.favorite,
                           ),
                           label: 'Playlist')
                     ]),
