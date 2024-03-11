@@ -1,4 +1,4 @@
-import 'package:music_app/data/model/songs_entity.dart';
+import 'package:music_app/domain/entity/songs_entity.dart';
 import 'package:music_app/presentation/providers/fav_db_music/music_db.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

@@ -18,7 +18,6 @@ class CurrentPlayingPage extends ConsumerWidget {
 
     /// Audio player instance
     final AudioPlayer player = ref.read(musicPlayerProvider);
-    int index = ref.watch(currentPlayingIndex);
 
     return ref.read(getAllMusicProvider).when(
         data: (data) {
@@ -176,7 +175,7 @@ class CurrentPlayingPage extends ConsumerWidget {
         error: (error, stackTrace) => Center(
               child: Text('error:$error'),
             ),
-        loading: () => Center(
+        loading: () => const Center(
               child: CircularProgressIndicator(),
             ));
   }

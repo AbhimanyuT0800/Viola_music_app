@@ -1,4 +1,4 @@
-import 'package:music_app/data/model/songs_entity.dart';
+import 'package:music_app/domain/entity/songs_entity.dart';
 import 'package:music_app/objectbox.g.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';

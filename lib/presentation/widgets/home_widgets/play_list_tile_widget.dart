@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:music_app/data/model/songs_entity.dart';
+import 'package:music_app/domain/entity/songs_entity.dart';
 import 'package:music_app/presentation/pages/play/playing_page.dart';
 import 'package:music_app/presentation/providers/current_playing/is_palying.dart';
 import 'package:music_app/presentation/providers/current_playing/music_player_provider.dart';
@@ -54,21 +54,20 @@ class PlayListTile extends ConsumerWidget {
                 builder: (context) => const CurrentPlayingPage(),
               ));
 
-          if (!isPlayingFromFav) {
-            //  get list of audio source
-            final List<AudioSource> source = ref.read(
-                getAllMusicPlayListProvider(
-                    data: ref.read(getAllMusicProvider).value!));
-            // Load and play the playlist
-            await player.setAudioSource(
-                ConcatenatingAudioSource(children: source),
-                initialIndex: index);
-            player.play();
-            // update current index of playing song
-            ref.watch(currentPlayingIndex.notifier).state = index;
-            // togle isplaying provider
-            ref.watch(isPlayingProvider.notifier).state = true;
-          }
+          // if (!isPlayingFromFav) {
+          //  get list of audio source
+          final List<AudioSource> source = ref.read(getAllMusicPlayListProvider(
+              data: ref.read(getAllMusicProvider).value!));
+          // Load and play the playlist
+          await player.setAudioSource(
+              ConcatenatingAudioSource(children: source),
+              initialIndex: index);
+          player.play();
+          // update current index of playing song
+          ref.watch(currentPlayingIndex.notifier).state = index;
+          // togle isplaying provider
+          ref.watch(isPlayingProvider.notifier).state = true;
+          // }
           // else {
           //   //  get list of audio source
           //   final List<AudioSource> source = ref.read(

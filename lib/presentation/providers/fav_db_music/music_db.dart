@@ -1,5 +1,5 @@
 import 'package:music_app/data/data_source/object_box.dart/object_box_impl.dart';
-import 'package:music_app/data/model/songs_entity.dart';
+import 'package:music_app/domain/entity/songs_entity.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'music_db.g.dart';
