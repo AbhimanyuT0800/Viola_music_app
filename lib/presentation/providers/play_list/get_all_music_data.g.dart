@@ -6,8 +6,7 @@ part of 'get_all_music_data.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getAllMusicPlayListHash() =>
-    r'bebc249adc1a9b5f22c691b2a437cd7d432f76ed';
+String _$getMusicPlayListHash() => r'5bda847930cb3ce1731b4176a4d52f069d5fa7cb';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,27 +29,27 @@ class _SystemHash {
   }
 }
 
-/// See also [getAllMusicPlayList].
-@ProviderFor(getAllMusicPlayList)
-const getAllMusicPlayListProvider = GetAllMusicPlayListFamily();
+/// See also [getMusicPlayList].
+@ProviderFor(getMusicPlayList)
+const getMusicPlayListProvider = GetMusicPlayListFamily();
 
-/// See also [getAllMusicPlayList].
-class GetAllMusicPlayListFamily extends Family<List<AudioSource>> {
-  /// See also [getAllMusicPlayList].
-  const GetAllMusicPlayListFamily();
+/// See also [getMusicPlayList].
+class GetMusicPlayListFamily extends Family<List<AudioSource>> {
+  /// See also [getMusicPlayList].
+  const GetMusicPlayListFamily();
 
-  /// See also [getAllMusicPlayList].
-  GetAllMusicPlayListProvider call({
-    required List<SongModel> data,
+  /// See also [getMusicPlayList].
+  GetMusicPlayListProvider call({
+    required List<String> data,
   }) {
-    return GetAllMusicPlayListProvider(
+    return GetMusicPlayListProvider(
       data: data,
     );
   }
 
   @override
-  GetAllMusicPlayListProvider getProviderOverride(
-    covariant GetAllMusicPlayListProvider provider,
+  GetMusicPlayListProvider getProviderOverride(
+    covariant GetMusicPlayListProvider provider,
   ) {
     return call(
       data: provider.data,
@@ -69,33 +68,32 @@ class GetAllMusicPlayListFamily extends Family<List<AudioSource>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'getAllMusicPlayListProvider';
+  String? get name => r'getMusicPlayListProvider';
 }
 
-/// See also [getAllMusicPlayList].
-class GetAllMusicPlayListProvider
-    extends AutoDisposeProvider<List<AudioSource>> {
-  /// See also [getAllMusicPlayList].
-  GetAllMusicPlayListProvider({
-    required List<SongModel> data,
+/// See also [getMusicPlayList].
+class GetMusicPlayListProvider extends AutoDisposeProvider<List<AudioSource>> {
+  /// See also [getMusicPlayList].
+  GetMusicPlayListProvider({
+    required List<String> data,
   }) : this._internal(
-          (ref) => getAllMusicPlayList(
-            ref as GetAllMusicPlayListRef,
+          (ref) => getMusicPlayList(
+            ref as GetMusicPlayListRef,
             data: data,
           ),
-          from: getAllMusicPlayListProvider,
-          name: r'getAllMusicPlayListProvider',
+          from: getMusicPlayListProvider,
+          name: r'getMusicPlayListProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$getAllMusicPlayListHash,
-          dependencies: GetAllMusicPlayListFamily._dependencies,
+                  : _$getMusicPlayListHash,
+          dependencies: GetMusicPlayListFamily._dependencies,
           allTransitiveDependencies:
-              GetAllMusicPlayListFamily._allTransitiveDependencies,
+              GetMusicPlayListFamily._allTransitiveDependencies,
           data: data,
         );
 
-  GetAllMusicPlayListProvider._internal(
+  GetMusicPlayListProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -105,16 +103,16 @@ class GetAllMusicPlayListProvider
     required this.data,
   }) : super.internal();
 
-  final List<SongModel> data;
+  final List<String> data;
 
   @override
   Override overrideWith(
-    List<AudioSource> Function(GetAllMusicPlayListRef provider) create,
+    List<AudioSource> Function(GetMusicPlayListRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: GetAllMusicPlayListProvider._internal(
-        (ref) => create(ref as GetAllMusicPlayListRef),
+      override: GetMusicPlayListProvider._internal(
+        (ref) => create(ref as GetMusicPlayListRef),
         from: from,
         name: null,
         dependencies: null,
@@ -127,12 +125,12 @@ class GetAllMusicPlayListProvider
 
   @override
   AutoDisposeProviderElement<List<AudioSource>> createElement() {
-    return _GetAllMusicPlayListProviderElement(this);
+    return _GetMusicPlayListProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is GetAllMusicPlayListProvider && other.data == data;
+    return other is GetMusicPlayListProvider && other.data == data;
   }
 
   @override
@@ -144,18 +142,18 @@ class GetAllMusicPlayListProvider
   }
 }
 
-mixin GetAllMusicPlayListRef on AutoDisposeProviderRef<List<AudioSource>> {
+mixin GetMusicPlayListRef on AutoDisposeProviderRef<List<AudioSource>> {
   /// The parameter `data` of this provider.
-  List<SongModel> get data;
+  List<String> get data;
 }
 
-class _GetAllMusicPlayListProviderElement
+class _GetMusicPlayListProviderElement
     extends AutoDisposeProviderElement<List<AudioSource>>
-    with GetAllMusicPlayListRef {
-  _GetAllMusicPlayListProviderElement(super.provider);
+    with GetMusicPlayListRef {
+  _GetMusicPlayListProviderElement(super.provider);
 
   @override
-  List<SongModel> get data => (origin as GetAllMusicPlayListProvider).data;
+  List<String> get data => (origin as GetMusicPlayListProvider).data;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

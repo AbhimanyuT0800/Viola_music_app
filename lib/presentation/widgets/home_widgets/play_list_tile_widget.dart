@@ -5,9 +5,9 @@ import 'package:music_app/domain/entity/songs_entity.dart';
 import 'package:music_app/presentation/pages/play/playing_page.dart';
 import 'package:music_app/presentation/providers/current_playing/is_palying.dart';
 import 'package:music_app/presentation/providers/current_playing/music_player_provider.dart';
-import 'package:music_app/presentation/providers/fav_db_music/music_db.dart';
+import 'package:music_app/presentation/providers/favorites/fav_db_music/music_db.dart';
 import 'package:music_app/presentation/providers/favorites/is_favorites.dart';
-import 'package:music_app/presentation/providers/music/get_all_music.dart';
+import 'package:music_app/presentation/providers/favorites/get_id_from_fav/get_music_entity.dart';
 import 'package:music_app/presentation/providers/play_list/get_all_music_data.dart';
 import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
 
@@ -18,71 +18,68 @@ class PlayListTile extends ConsumerWidget {
       required this.artist,
       required this.data,
       required this.index,
-      required this.isPlayingFromFav});
+      this.isPlayingFromFav = false,
+      this.isPlayingFromSearch = false,
+      required this.listOfDatas});
 
   final int index;
   final String data;
   final String title;
   final String artist;
   final bool isPlayingFromFav;
-
-  /// method to find the id(from data base) of fav song
-  int getMusicEntity(
-      {required String data, required List<SongsEntity> dbSongs}) {
-    int id = 0;
-    for (SongsEntity entity in dbSongs) {
-      if (entity.data == data) {
-        id = entity.id!;
-      }
-    }
-    return id;
-  }
+  final bool isPlayingFromSearch;
+  final List<String> listOfDatas;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final player = ref.watch(musicPlayerProvider);
     return ListTile(
         // play the song contains
         onTap: () async {
+          ref.invalidate(getMusicPlayListProvider);
+          // ref.read(musicPlayerProvider).dispose();
+
           // if it is playing any song it will pause else do nothing
-          player.pause();
+          ref.read(musicPlayerProvider).pause();
 
-          // navigate to playing page when tap on song details section
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const CurrentPlayingPage(),
-              ));
+          if (isPlayingFromFav) {
+            // navigate to playing page when tap on song details section
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CurrentPlayingPage(
+                    isPlayingFromFav: true,
+                  ),
+                ));
+          } else if (isPlayingFromSearch) {
+            // navigate to playing page when tap on song details section
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CurrentPlayingPage(
+                    isPlayingFromSearch: true,
+                  ),
+                ));
+          } else {
+            // navigate to playing page when tap on song details section
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CurrentPlayingPage(),
+                ));
+          }
 
-          // if (!isPlayingFromFav) {
-          //  get list of audio source
-          final List<AudioSource> source = ref.read(getAllMusicPlayListProvider(
-              data: ref.read(getAllMusicProvider).value!));
+          // initialise audio source
+          final List<AudioSource> source =
+              ref.read(getMusicPlayListProvider(data: listOfDatas));
+          // ref.read(musicPlayerProvider).stop();
           // Load and play the playlist
-          await player.setAudioSource(
+          await ref.read(musicPlayerProvider).setAudioSource(
               ConcatenatingAudioSource(children: source),
               initialIndex: index);
-          player.play();
-          // update current index of playing song
-          ref.watch(currentPlayingIndex.notifier).state = index;
-          // togle isplaying provider
-          ref.watch(isPlayingProvider.notifier).state = true;
-          // }
-          // else {
-          //   //  get list of audio source
-          //   final List<AudioSource> source = ref.read(
-          //       getAllMusicPlayListProvider(
-          //           data: ref.read(getAllMusicProvider).value!));
-          //   // Load and play the playlist
-          //   await player.setAudioSource(
-          //       ConcatenatingAudioSource(children: source),
-          //       initialIndex: index);
-          //   player.play();
-          //   // update current index of playing song
-          //   ref.watch(currentPlayingIndex.notifier).state = index;
-          //   // togle isplaying provider
-          //   ref.watch(isPlayingProvider.notifier).state = true;
-          // }
+          ref.read(musicPlayerProvider).play();
+
+          //  invalidate isplaying to update
+          ref.invalidate(isPlayingProvider);
         },
         // current imge of the music
         leading: InkWell(
@@ -133,13 +130,16 @@ class PlayListTile extends ConsumerWidget {
                   ref.read(isFavProvider(data: data))
 
                       /// if the song is favorite it remove from database
-                      ? ref.read(musicDbProvider.notifier).removeSongs(
-                          getMusicEntity(
-                              dbSongs: ref.read(musicDbProvider), data: data))
+                      ? ref.read(musicDbProvider.notifier).removeSongs(ref.read(
+                          getMusicEntityProvider(
+                              dbSongs: ref.read(musicDbProvider), data: data)))
 
                       /// if the song is not in the data base it will add to it
                       : ref.read(musicDbProvider.notifier).addSongs(SongsEntity(
-                          artist: artist, title: title, data: data));
+                            artist: artist,
+                            title: title,
+                            data: data,
+                          ));
                   ref.invalidate(isFavProvider);
                 },
                 icon: ref.watch(IsFavProvider(data: data))

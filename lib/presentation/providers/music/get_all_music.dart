@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'get_all_music.g.dart';
 
+// get available all music from storage
 @riverpod
 Future<List<SongModel>> getAllMusic(GetAllMusicRef ref) {
   return FetchAudioFiles().fetchAudio();

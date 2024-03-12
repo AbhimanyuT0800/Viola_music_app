@@ -1,5 +1,6 @@
 import 'package:objectbox/objectbox.dart';
 
+// entity class for objectBox
 @Entity()
 class SongsEntity {
   @Id()
@@ -7,7 +8,8 @@ class SongsEntity {
 
   String? title;
   String? artist;
-  String? data;
+
+  String data;
   SongsEntity(
       {this.id = 0,
       required this.artist,

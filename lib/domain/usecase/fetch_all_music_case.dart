@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:on_audio_query/on_audio_query.dart';
 
+// get all audio files from local storage
+
 class FetchAudioFiles {
   Future<List<SongModel>> fetchAudio() async {
     final OnAudioQuery audioQuery = OnAudioQuery();

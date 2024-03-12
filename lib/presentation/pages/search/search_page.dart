@@ -21,6 +21,7 @@ class SearchPage extends ConsumerWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.deepPurple,
+        // title
         title: Text(
           'Search',
           style: GoogleFonts.roboto(
@@ -36,6 +37,7 @@ class SearchPage extends ConsumerWidget {
               child: TextField(
                 controller: textEditingController,
                 onChanged: (value) {
+                  // provider for get searched songs
                   ref.read(searchProvider.notifier).searchSongs(search: value);
                 },
                 decoration: InputDecoration(
@@ -46,10 +48,7 @@ class SearchPage extends ConsumerWidget {
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.search),
                     onPressed: () {
-                      // Implement search functionality
-                      // ref
-                      //     .read(searchProvider.notifier)
-                      //     .searchSongs(search: );
+                      //
                     },
                   ),
                 ),
@@ -58,22 +57,34 @@ class SearchPage extends ConsumerWidget {
             Padding(
               padding: EdgeInsets.only(top: context.screenHeight(5)),
               child: ref.watch(searchProvider).isEmpty
-                  ? const Center(
-                      child: Text('search......!'),
+                  ? Padding(
+                      padding: EdgeInsets.only(top: context.screenHeight(150)),
+                      child: SizedBox(
+                        height: context.screenHeight(300),
+                        width: context.screenHeight(300),
+                        child: const Image(
+                            image: AssetImage(
+                                'assets/images/search_somthing.webp')),
+                      ),
                     )
                   : ListView.builder(
                       shrinkWrap: true,
+                      // length of the result of search
                       itemCount: ref.watch(searchProvider).length,
                       controller: scrollController,
                       itemBuilder: (context, index) {
+                        // get all result
                         final List<SongModel> result =
                             ref.watch(searchProvider);
                         return PlayListTile(
-                            title: result[index].title,
-                            artist: result[index].artist ?? 'unknown',
-                            data: result[index].data,
-                            index: index,
-                            isPlayingFromFav: false);
+                          title: result[index].title,
+                          artist: result[index].artist ?? 'unknown',
+                          data: result[index].data,
+                          index: index,
+                          isPlayingFromSearch: true,
+                          // make list of string with search results data
+                          listOfDatas: result.map((e) => e.data).toList(),
+                        );
                       },
                     ),
             )

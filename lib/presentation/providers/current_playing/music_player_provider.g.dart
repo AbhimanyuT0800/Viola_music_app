@@ -6,13 +6,12 @@ part of 'music_player_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$musicPlayerHash() => r'e4be41aa895fd3837ed7430d5469ce4153e17c50';
+String _$musicPlayerHash() => r'0ca8126cfc02eaf1f4a2abe8d1e097b4ab61e6f6';
 
-/// See also [MusicPlayer].
-@ProviderFor(MusicPlayer)
-final musicPlayerProvider =
-    AutoDisposeNotifierProvider<MusicPlayer, AudioPlayer>.internal(
-  MusicPlayer.new,
+/// See also [musicPlayer].
+@ProviderFor(musicPlayer)
+final musicPlayerProvider = Provider<AudioPlayer>.internal(
+  musicPlayer,
   name: r'musicPlayerProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$musicPlayerHash,
@@ -20,6 +19,6 @@ final musicPlayerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$MusicPlayer = AutoDisposeNotifier<AudioPlayer>;
+typedef MusicPlayerRef = ProviderRef<AudioPlayer>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -33,6 +33,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
+      // navigate to loading screen
       home: LoadingScreen(),
     );
   }

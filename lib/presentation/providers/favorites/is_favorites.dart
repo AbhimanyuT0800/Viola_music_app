@@ -1,9 +1,10 @@
 import 'package:music_app/domain/entity/songs_entity.dart';
-import 'package:music_app/presentation/providers/fav_db_music/music_db.dart';
+import 'package:music_app/presentation/providers/favorites/fav_db_music/music_db.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'is_favorites.g.dart';
 
+// checks it is favorite or not
 class CheckIsFav {
   bool isFav({required String data, required List<SongsEntity> listOfmusic}) {
     bool isFav = false;

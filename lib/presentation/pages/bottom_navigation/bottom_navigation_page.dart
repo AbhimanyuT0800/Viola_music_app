@@ -13,6 +13,7 @@ class MusicBottomSheet extends StatefulWidget {
 }
 
 class _MusicBottomSheetState extends State<MusicBottomSheet> {
+  // scroll controller for scrollToHide package
   final ScrollController _scrollController = ScrollController();
 
   int currentIndex = 0;
@@ -49,8 +50,8 @@ class _MusicBottomSheetState extends State<MusicBottomSheet> {
                         color: Colors.white,
                         fontSize: 15,
                         fontWeight: FontWeight.w700),
-                        // update current index when tapped
                     onTap: (value) {
+                      // update current index according to tap
                       setState(() {
                         currentIndex = value;
                       });
@@ -63,6 +64,7 @@ class _MusicBottomSheetState extends State<MusicBottomSheet> {
                     selectedFontSize: 14,
                     unselectedFontSize: 12,
                     items: const [
+                      // items for bottom navigation bar
                       BottomNavigationBarItem(
                         icon: Icon(
                           Icons.home,

@@ -117,8 +117,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
               object.artist == null ? null : fbb.writeString(object.artist!);
           final titleOffset =
               object.title == null ? null : fbb.writeString(object.title!);
-          final dataOffset =
-              object.data == null ? null : fbb.writeString(object.data!);
+          final dataOffset = fbb.writeString(object.data);
           fbb.startTable(9);
           fbb.addInt64(0, object.id ?? 0);
           fbb.addOffset(4, artistOffset);
@@ -137,7 +136,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final titleParam = const fb.StringReader(asciiOptimization: true)
               .vTableGetNullable(buffer, rootOffset, 16);
           final dataParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 18);
+              .vTableGet(buffer, rootOffset, 18, '');
           final object = SongsEntity(
               id: idParam,
               artist: artistParam,

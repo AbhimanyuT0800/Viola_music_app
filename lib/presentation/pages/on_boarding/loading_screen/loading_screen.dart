@@ -6,18 +6,8 @@ import 'package:music_app/presentation/pages/on_boarding/on_boarding_screen.dart
 
 import 'package:page_transition/page_transition.dart';
 
-class LoadingScreen extends StatefulWidget {
+class LoadingScreen extends StatelessWidget {
   const LoadingScreen({super.key});
-
-  @override
-  State<LoadingScreen> createState() => _LoadingScreenState();
-}
-
-class _LoadingScreenState extends State<LoadingScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +19,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
             // if storage access already granded navigate to home screen directly
             // else navigate to onBoarding screen
             child: SharedPrefImpl.getSharedPref()
-                ? MusicBottomSheet()
+                ? const MusicBottomSheet()
                 : OnBoardingScreen(),
             type: PageTransitionType.fade),
       );

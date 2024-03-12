@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:music_app/presentation/providers/current_playing/is_palying.dart';
 import 'package:music_app/presentation/providers/current_playing/music_player_provider.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 // Builder for currently playing song details
 StreamBuilder currentPlayingMusic(List<SongModel> song, WidgetRef ref) {
   // AudioPlayer obj
-  final AudioPlayer player = ref.read(musicPlayerProvider);
   return StreamBuilder(
       // stream of current playing index
-      stream: player.currentIndexStream,
+      stream: ref.watch(musicPlayerProvider).currentIndexStream,
       builder: (context, snapShot) {
         return Container(
           padding: const EdgeInsets.all(16.0),

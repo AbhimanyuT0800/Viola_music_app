@@ -3,17 +3,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:music_app/presentation/pages/favorite/favorites_page.dart';
-import 'package:music_app/presentation/pages/play/playing_page.dart';
-import 'package:music_app/presentation/providers/current_playing/is_palying.dart';
-import 'package:music_app/presentation/providers/current_playing/music_player_provider.dart';
 import 'package:music_app/presentation/providers/music/get_all_music.dart';
 import 'package:music_app/presentation/widgets/home_widgets/buttons_home_song_controllers/play_and_pause.dart';
 import 'package:music_app/presentation/widgets/home_widgets/buttons_home_song_controllers/skip_next.dart';
 import 'package:music_app/presentation/widgets/home_widgets/buttons_home_song_controllers/skip_previos.dart';
 import 'package:music_app/presentation/widgets/home_widgets/current_playing_dtls.dart';
 import 'package:music_app/presentation/widgets/home_widgets/play_list_tile_widget.dart';
-import 'package:music_app/presentation/widgets/home_widgets/progress_indicator.dart';
 import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
 
 class HomePage extends ConsumerWidget {
@@ -26,10 +21,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // provider for music is playing or not
-    bool isPlaying = ref.watch(isPlayingProvider);
     // provider for audio player
-    final player = ref.watch(musicPlayerProvider);
 
     return RefreshIndicator(
       onRefresh: () {
@@ -72,9 +64,9 @@ class HomePage extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           // buttons for controll next,previous and paus/play
-                          skipPreviosButton(player, ref, data),
-                          pauseAndPlayButton(isPlaying, player, ref, data),
-                          skipNextButton(player, ref, data)
+                          skipPreviosButton(ref),
+                          pauseAndPlayButton(ref),
+                          skipNextButton(ref)
                         ],
                       ),
                     ),
@@ -84,15 +76,24 @@ class HomePage extends ConsumerWidget {
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       childCount: data.length,
-                      (context, index) => Card(
-                        child: PlayListTile(
-                          isPlayingFromFav: false,
-                          artist: data[index].artist!,
-                          data: data[index].data,
-                          title: data[index].title,
-                          index: index,
-                        ),
-                      ),
+                      (context, index) {
+                        // dispose whole activity in audioplayer
+                        // ref.read(musicPlayerProvider).dispose();
+                        return Card(
+                          child: PlayListTile(
+                            isPlayingFromFav: false,
+                            artist: data[index].artist!,
+                            data: data[index].data,
+                            title: data[index].title,
+                            index: index,
+                            listOfDatas: ref
+                                .read(getAllMusicProvider)
+                                .value!
+                                .map((e) => e.data)
+                                .toList(),
+                          ),
+                        );
+                      },
                     ),
                   )
                 ],

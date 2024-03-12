@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+// shared pref implimentation
 class SharedPrefImpl {
   static late final SharedPreferences pref;
 

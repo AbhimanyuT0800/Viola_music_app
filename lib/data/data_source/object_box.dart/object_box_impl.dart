@@ -3,6 +3,7 @@ import 'package:music_app/objectbox.g.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
+// object box declaration
 class ObjectBoxImpl {
   late final Store store;
   static late final Box<SongsEntity> box;

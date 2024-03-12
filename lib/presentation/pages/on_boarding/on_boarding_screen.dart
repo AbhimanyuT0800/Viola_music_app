@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:music_app/data/repositories/shared_pref_repo_impl/shared_perf_impl.dart';
 import 'package:music_app/presentation/pages/bottom_navigation/bottom_navigation_page.dart';
 import 'package:music_app/presentation/pages/home/access_denied/storage_access_denied.dart';
-import 'package:music_app/presentation/pages/on_boarding/loading_screen/text_field.dart';
+import 'package:music_app/presentation/widgets/home_widgets/text_field.dart';
 import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
