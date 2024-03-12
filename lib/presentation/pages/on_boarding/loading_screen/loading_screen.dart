@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:music_app/data/repositories/shared_pref_repo_impl/shared_perf_impl.dart';
+import 'package:music_app/data/data_source/shared_preferences/shared_perf.dart';
 import 'package:music_app/presentation/pages/bottom_navigation/bottom_navigation_page.dart';
 import 'package:music_app/presentation/pages/on_boarding/on_boarding_screen.dart';
 

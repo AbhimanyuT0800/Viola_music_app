@@ -29,6 +29,7 @@ class SearchPage extends ConsumerWidget {
         ),
       ),
       body: SingleChildScrollView(
+        controller: scrollController,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -71,7 +72,7 @@ class SearchPage extends ConsumerWidget {
                       shrinkWrap: true,
                       // length of the result of search
                       itemCount: ref.watch(searchProvider).length,
-                      controller: scrollController,
+                      // controller: scrollController,
                       itemBuilder: (context, index) {
                         // get all result
                         final List<SongModel> result =

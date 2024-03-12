@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/data/data_source/object_box.dart/object_box_impl.dart';
-import 'package:music_app/data/repositories/shared_pref_repo_impl/shared_perf_impl.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:music_app/data/data_source/shared_preferences/shared_perf.dart';
 import 'presentation/pages/on_boarding/loading_screen/loading_screen.dart';
 
 void main() async {
@@ -31,10 +31,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // navigate to loading screen
-      home: LoadingScreen(),
+    return GestureDetector(
+      /// method for hiding soft keyboard
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        // navigate to loading screen
+        home: LoadingScreen(),
+      ),
     );
   }
 }
