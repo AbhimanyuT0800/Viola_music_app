@@ -4,6 +4,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:music_app/domain/entity/songs_entity.dart';
 import 'package:music_app/presentation/pages/play/playing_page.dart';
 import 'package:music_app/presentation/providers/current_playing/is_palying.dart';
+import 'package:music_app/presentation/providers/current_playing/is_played_once.dart';
 import 'package:music_app/presentation/providers/current_playing/music_player_provider.dart';
 import 'package:music_app/presentation/providers/favorites/fav_db_music/music_db.dart';
 import 'package:music_app/presentation/providers/favorites/is_favorites.dart';
@@ -35,6 +36,8 @@ class PlayListTile extends ConsumerWidget {
     return ListTile(
         // play the song contains
         onTap: () async {
+          ref.watch(isPlayedOnceProvider.notifier).state = true;
+
           ref.invalidate(getMusicPlayListProvider);
           // ref.read(musicPlayerProvider).dispose();
 

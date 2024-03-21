@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:music_app/presentation/providers/current_playing/is_played_once.dart';
 import 'package:music_app/presentation/providers/music/get_all_music.dart';
 import 'package:music_app/presentation/widgets/home_widgets/buttons_home_song_controllers/play_and_pause.dart';
 import 'package:music_app/presentation/widgets/home_widgets/buttons_home_song_controllers/skip_next.dart';
@@ -26,7 +27,7 @@ class HomePage extends ConsumerWidget {
     return RefreshIndicator(
       onRefresh: () {
         // delay for refresh indicator showing
-        return Future.delayed(const Duration(seconds: 3));
+        return Future.delayed(const Duration(seconds: 1));
       },
       child: ref.watch(getAllMusicProvider).when(
             data: (data) {
@@ -53,26 +54,30 @@ class HomePage extends ConsumerWidget {
                         onTap: () {}, child: currentPlayingMusic(data, ref)),
                   ),
                   // music controlls section
-                  SliverAppBar(
-                    automaticallyImplyLeading: false,
-                    pinned: true,
-                    toolbarHeight: context.screenHeight(50),
-                    title: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          // buttons for controll next,previous and paus/play
-                          skipPreviosButton(ref),
-                          pauseAndPlayButton(ref),
-                          skipNextButton(ref)
-                        ],
-                      ),
-                    ),
-                    bottom: const PreferredSize(
-                        preferredSize: Size(100, 15), child: SizedBox()),
-                  ), // mp3 files stored in local storage
+                  ref.watch(isPlayedOnceProvider)
+                      ? SliverAppBar(
+                          automaticallyImplyLeading: false,
+                          pinned: true,
+                          toolbarHeight: context.screenHeight(50),
+                          title: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                // buttons for controll next,previous and paus/play
+                                skipPreviosButton(ref),
+                                pauseAndPlayButton(ref),
+                                skipNextButton(ref)
+                              ],
+                            ),
+                          ),
+                          bottom: const PreferredSize(
+                              preferredSize: Size(100, 15), child: SizedBox()),
+                        )
+                      : SliverAppBar(
+                          toolbarHeight: 5,
+                        ), // mp3 files stored in local storage
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       childCount: data.length,

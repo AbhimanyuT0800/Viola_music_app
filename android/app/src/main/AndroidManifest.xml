@@ -12,7 +12,7 @@
 
     <application
         android:name="${applicationName}"
-        android:label="Abi"
+        android:label="Viola"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">
 
