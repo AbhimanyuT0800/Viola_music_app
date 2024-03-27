@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:music_app/domain/entity/songs_entity.dart';
-import 'package:music_app/presentation/pages/play/playing_page.dart';
-import 'package:music_app/presentation/providers/current_playing/is_palying.dart';
-import 'package:music_app/presentation/providers/current_playing/is_played_once.dart';
-import 'package:music_app/presentation/providers/current_playing/music_player_provider.dart';
-import 'package:music_app/presentation/providers/favorites/fav_db_music/music_db.dart';
-import 'package:music_app/presentation/providers/favorites/is_favorites.dart';
-import 'package:music_app/presentation/providers/favorites/get_id_from_fav/get_music_entity.dart';
-import 'package:music_app/presentation/providers/play_list/get_all_music_data.dart';
-import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
+import 'package:viola/domain/entity/songs_entity.dart';
+import 'package:viola/presentation/pages/play/playing_page.dart';
+import 'package:viola/presentation/providers/current_playing/is_palying.dart';
+import 'package:viola/presentation/providers/current_playing/is_played_once.dart';
+import 'package:viola/presentation/providers/current_playing/music_player_provider.dart';
+import 'package:viola/presentation/providers/favorites/fav_db_music/music_db.dart';
+import 'package:viola/presentation/providers/favorites/is_favorites.dart';
+import 'package:viola/presentation/providers/favorites/get_id_from_fav/get_music_entity.dart';
+import 'package:viola/presentation/providers/play_list/get_all_music_data.dart';
+import 'package:viola/utils/dynamic_sizes/dynamic_sizes.dart';
 
 class PlayListTile extends ConsumerWidget {
   const PlayListTile(
@@ -94,23 +95,21 @@ class PlayListTile extends ConsumerWidget {
                     builder: (context) => const CurrentPlayingPage()));
           },
           child: const CircleAvatar(
-            backgroundImage: AssetImage('assets/images/img_onboarding.jpg'),
+            backgroundImage: AssetImage('assets/animations/viola_logo.png'),
           ),
         ),
         // title of the song
-        title: Text(
-          title,
-          overflow: TextOverflow.ellipsis,
-          maxLines: 2,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.deepPurple,
-          ),
-        ),
+        title: Text(title.split('-').removeAt(0),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            style: GoogleFonts.eduNswActFoundation(
+              fontWeight: FontWeight.w600,
+              color: Colors.deepPurple,
+            )),
         // name of the artist
         subtitle: Text(
           artist,
-          maxLines: 2,
+          maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             color: Colors.deepPurpleAccent,
@@ -144,6 +143,7 @@ class PlayListTile extends ConsumerWidget {
                             data: data,
                           ));
                   ref.invalidate(isFavProvider);
+                  ref.invalidate(musicDbProvider);
                 },
                 icon: ref.watch(IsFavProvider(data: data))
                     ? const Icon(

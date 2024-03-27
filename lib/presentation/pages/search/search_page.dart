@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:music_app/presentation/providers/search_provider/search.dart';
-import 'package:music_app/presentation/widgets/home_widgets/play_list_tile_widget.dart';
-import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
+import 'package:viola/presentation/providers/search_provider/search.dart';
+import 'package:viola/presentation/widgets/home_widgets/play_list_tile_widget.dart';
+import 'package:viola/utils/dynamic_sizes/dynamic_sizes.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class SearchPage extends ConsumerWidget {
@@ -24,8 +24,10 @@ class SearchPage extends ConsumerWidget {
         // title
         title: Text(
           'Search',
-          style: GoogleFonts.roboto(
-              color: Colors.white, fontWeight: FontWeight.bold),
+          style: GoogleFonts.pacifico(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 2),
         ),
       ),
       body: SingleChildScrollView(

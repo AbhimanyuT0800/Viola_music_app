@@ -1,4 +1,4 @@
-name: music_app
+name: viola
 description: "A new Flutter project."
 publish_to: 'none'
 version: 0.1.0
@@ -26,6 +26,7 @@ dependencies:
   just_audio: ^0.9.36
   audio_video_progress_bar: ^2.0.2
   just_audio_background: ^0.0.1-beta.11
+  url_launcher: ^6.2.5
  
 
 dev_dependencies:
@@ -44,3 +45,8 @@ flutter:
   assets:
     - assets/animations/
     - assets/images/
+
+  fonts:  
+    - family: Pacifico
+      fonts:
+        - asset: assets/fonts/Pacifico-Regular.ttf

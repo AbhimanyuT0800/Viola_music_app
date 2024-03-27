@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
-import 'package:music_app/data/data_source/shared_preferences/shared_perf.dart';
-import 'package:music_app/presentation/pages/bottom_navigation/bottom_navigation_page.dart';
-import 'package:music_app/presentation/pages/on_boarding/on_boarding_screen.dart';
+import 'package:viola/data/data_source/shared_preferences/shared_perf.dart';
+import 'package:viola/presentation/pages/bottom_navigation/bottom_navigation_page.dart';
+import 'package:viola/presentation/pages/on_boarding/on_boarding_screen.dart';
 
 import 'package:page_transition/page_transition.dart';
 
@@ -27,9 +26,25 @@ class LoadingScreen extends StatelessWidget {
 
     return Scaffold(
       body: Center(
-        child: SizedBox(
-          height: 150,
-          child: Lottie.asset('assets/animations/loading_animation.json'),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/animations/viola_logo.png",
+              width: 100,
+              height: 100,
+              fit: BoxFit.cover,
+            ),
+            const Text(
+              'Viola',
+              style: TextStyle(
+                  fontFamily: 'Pacifico',
+                  color: Colors.black,
+                  fontSize: 30,
+                  fontWeight: FontWeight.w700),
+            )
+          ],
         ),
       ),
     );

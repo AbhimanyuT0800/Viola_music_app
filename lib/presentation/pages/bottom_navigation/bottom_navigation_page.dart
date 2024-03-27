@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:music_app/presentation/pages/favorite/favorites_page.dart';
-import 'package:music_app/presentation/pages/home/home_page.dart';
-import 'package:music_app/presentation/pages/search/search_page.dart';
-import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
+import 'package:viola/presentation/pages/favorite/favorites_page.dart';
+import 'package:viola/presentation/pages/home/home_page.dart';
+import 'package:viola/presentation/pages/search/search_page.dart';
+import 'package:viola/utils/dynamic_sizes/dynamic_sizes.dart';
 import 'package:scroll_to_hide/scroll_to_hide.dart';
 
 class MusicBottomSheet extends StatefulWidget {
@@ -24,7 +24,7 @@ class _MusicBottomSheetState extends State<MusicBottomSheet> {
     List<Widget> pages = [
       HomePage(scrollController: _scrollController),
       SearchPage(scrollController: _scrollController),
-      FavoritePage(controller: _scrollController)
+      FavoritePage(controller: _scrollController),
     ];
     return Scaffold(
       body: Stack(
@@ -47,16 +47,17 @@ class _MusicBottomSheetState extends State<MusicBottomSheet> {
                   currentIndex: currentIndex,
                   showUnselectedLabels: false,
                   selectedLabelStyle: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700),
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                  ),
                   onTap: (value) {
-                    // update current index according to tap
                     setState(() {
                       currentIndex = value;
                     });
                   },
-                  backgroundColor: Colors.deepPurple[300],
+                  backgroundColor:
+                      Colors.deepPurple[300], // Set the background color here
                   selectedItemColor: Colors.white,
                   unselectedItemColor: Colors.grey[400],
                   elevation: 10,
@@ -64,23 +65,20 @@ class _MusicBottomSheetState extends State<MusicBottomSheet> {
                   selectedFontSize: 14,
                   unselectedFontSize: 12,
                   items: const [
-                    // items for bottom navigation bar
                     BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.home,
-                      ),
-                      label: 'Home',
-                    ),
+                        icon: Icon(Icons.home), label: 'Home', tooltip: 'Home'),
                     BottomNavigationBarItem(
-                        icon: Icon(
-                          Icons.search,
-                        ),
-                        label: 'Search'),
+                        icon: Icon(Icons.search),
+                        label: 'Search',
+                        tooltip: 'Search'),
                     BottomNavigationBarItem(
-                        icon: Icon(
-                          Icons.favorite,
-                        ),
-                        label: 'Playlist')
+                        icon: Icon(Icons.favorite),
+                        label: 'Favorite',
+                        tooltip: 'favorite'),
+                    // BottomNavigationBarItem(
+                    //   icon: Icon(Icons.info),
+                    //   label: 'Info',
+                    // ),
                   ],
                 ),
               ),

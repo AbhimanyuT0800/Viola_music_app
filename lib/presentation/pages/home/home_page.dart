@@ -3,14 +3,15 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:music_app/presentation/providers/current_playing/is_played_once.dart';
-import 'package:music_app/presentation/providers/music/get_all_music.dart';
-import 'package:music_app/presentation/widgets/home_widgets/buttons_home_song_controllers/play_and_pause.dart';
-import 'package:music_app/presentation/widgets/home_widgets/buttons_home_song_controllers/skip_next.dart';
-import 'package:music_app/presentation/widgets/home_widgets/buttons_home_song_controllers/skip_previos.dart';
-import 'package:music_app/presentation/widgets/home_widgets/current_playing_dtls.dart';
-import 'package:music_app/presentation/widgets/home_widgets/play_list_tile_widget.dart';
-import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
+import 'package:viola/presentation/pages/contact_us/contact_us.dart';
+import 'package:viola/presentation/providers/current_playing/is_played_once.dart';
+import 'package:viola/presentation/providers/music/get_all_music.dart';
+import 'package:viola/presentation/widgets/home_widgets/buttons_home_song_controllers/play_and_pause.dart';
+import 'package:viola/presentation/widgets/home_widgets/buttons_home_song_controllers/skip_next.dart';
+import 'package:viola/presentation/widgets/home_widgets/buttons_home_song_controllers/skip_previos.dart';
+import 'package:viola/presentation/widgets/home_widgets/current_playing_dtls.dart';
+import 'package:viola/presentation/widgets/home_widgets/play_list_tile_widget.dart';
+import 'package:viola/utils/dynamic_sizes/dynamic_sizes.dart';
 
 class HomePage extends ConsumerWidget {
   final ScrollController scrollController;
@@ -22,8 +23,6 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // provider for audio player
-
     return RefreshIndicator(
       onRefresh: () {
         // delay for refresh indicator showing
@@ -42,17 +41,35 @@ class HomePage extends ConsumerWidget {
                     backgroundColor: Colors.deepPurple,
                     title: Text(
                       'Viola',
-                      style: GoogleFonts.roboto(
+                      style: GoogleFonts.pacifico(
                           color: Colors.white,
                           fontSize: 30,
                           fontWeight: FontWeight.w700),
                     ),
+                    actions: [
+                      IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ContactUsPage()));
+                          },
+                          icon: const Icon(
+                            Icons.contact_support,
+                            color: Colors.white,
+                            size: 30,
+                          ))
+                    ],
                   ),
                   // topside section which contain data of current playing music
-                  SliverToBoxAdapter(
-                    child: InkWell(
-                        onTap: () {}, child: currentPlayingMusic(data, ref)),
-                  ),
+                  ref.watch(isPlayedOnceProvider)
+                      ? SliverToBoxAdapter(
+                          child: InkWell(
+                              onTap: () {},
+                              child: currentPlayingMusic(data, ref)),
+                        )
+                      : const SliverToBoxAdapter(),
                   // music controlls section
                   ref.watch(isPlayedOnceProvider)
                       ? SliverAppBar(
@@ -75,9 +92,7 @@ class HomePage extends ConsumerWidget {
                           bottom: const PreferredSize(
                               preferredSize: Size(100, 15), child: SizedBox()),
                         )
-                      : SliverAppBar(
-                          toolbarHeight: 5,
-                        ), // mp3 files stored in local storage
+                      : const SliverToBoxAdapter(), // mp3 files stored in local storage
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       childCount: data.length,

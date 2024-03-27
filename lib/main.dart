@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:music_app/data/data_source/object_box.dart/object_box_impl.dart';
+import 'package:viola/data/data_source/object_box.dart/object_box_impl.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:music_app/data/data_source/shared_preferences/shared_perf.dart';
+import 'package:viola/data/data_source/shared_preferences/shared_perf.dart';
 import 'presentation/pages/on_boarding/loading_screen/loading_screen.dart';
 
 void main() async {
@@ -15,7 +15,7 @@ void main() async {
     androidNotificationChannelName: 'Audio playback',
     androidNotificationOngoing: true,
   );
-  // await for create object box
+  // await untill create object box
   await ObjectBoxImpl.create();
 
 // run app

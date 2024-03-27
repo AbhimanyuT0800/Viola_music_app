@@ -1,4 +1,4 @@
-import 'package:music_app/domain/entity/songs_entity.dart';
+import 'package:viola/domain/entity/songs_entity.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'get_music_entity.g.dart';

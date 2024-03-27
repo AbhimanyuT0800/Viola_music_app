@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:music_app/data/data_source/shared_preferences/shared_perf.dart';
-import 'package:music_app/presentation/pages/bottom_navigation/bottom_navigation_page.dart';
+import 'package:viola/data/data_source/shared_preferences/shared_perf.dart';
+import 'package:viola/presentation/pages/bottom_navigation/bottom_navigation_page.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class StorageAccessException extends StatelessWidget {

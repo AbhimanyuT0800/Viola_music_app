@@ -1,5 +1,5 @@
 import 'package:just_audio/just_audio.dart';
-import 'package:music_app/data/data_source/list_play_list/list_of_all_audio_file.dart';
+import 'package:viola/data/data_source/list_play_list/list_of_all_audio_file.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'get_all_music_data.g.dart';

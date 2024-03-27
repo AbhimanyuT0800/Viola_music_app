@@ -1,5 +1,5 @@
-import 'package:music_app/domain/entity/songs_entity.dart';
-import 'package:music_app/presentation/providers/favorites/fav_db_music/music_db.dart';
+import 'package:viola/domain/entity/songs_entity.dart';
+import 'package:viola/presentation/providers/favorites/fav_db_music/music_db.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'is_favorites.g.dart';

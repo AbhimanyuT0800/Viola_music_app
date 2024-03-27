@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:music_app/presentation/providers/current_playing/music_player_provider.dart';
+import 'package:viola/presentation/providers/current_playing/music_player_provider.dart';
 
 /// method for skip to next song
 IconButton skipNextButton(WidgetRef ref) {

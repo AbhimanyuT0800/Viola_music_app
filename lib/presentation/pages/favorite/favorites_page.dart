@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:music_app/domain/entity/songs_entity.dart';
-import 'package:music_app/presentation/providers/favorites/fav_db_music/music_db.dart';
-import 'package:music_app/presentation/widgets/home_widgets/play_list_tile_widget.dart';
+import 'package:viola/domain/entity/songs_entity.dart';
+import 'package:viola/presentation/providers/favorites/fav_db_music/music_db.dart';
+import 'package:viola/presentation/widgets/home_widgets/play_list_tile_widget.dart';
 
 class FavoritePage extends ConsumerWidget {
   const FavoritePage({super.key, required this.controller});
@@ -19,8 +19,10 @@ class FavoritePage extends ConsumerWidget {
         // title
         title: Text(
           'Favorite',
-          style: GoogleFonts.roboto(
-              color: Colors.white, fontWeight: FontWeight.bold),
+          style: GoogleFonts.pacifico(
+              letterSpacing: 2,
+              color: Colors.white,
+              fontWeight: FontWeight.w500),
         ),
       ),
       // checks the box contaning fav  is empty or not

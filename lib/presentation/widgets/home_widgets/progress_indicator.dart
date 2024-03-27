@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:music_app/presentation/providers/current_playing/music_player_provider.dart';
-import 'package:music_app/utils/dynamic_sizes/dynamic_sizes.dart';
+import 'package:viola/presentation/providers/current_playing/music_player_provider.dart';
+import 'package:viola/utils/dynamic_sizes/dynamic_sizes.dart';
 
 // stream builder for progress bar
 class ProgressIndicatingWidget extends ConsumerWidget {
