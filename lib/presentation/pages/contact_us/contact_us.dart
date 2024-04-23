@@ -100,7 +100,7 @@ class ContactUsPage extends StatelessWidget {
             ),
             const Center(
               child: Text(
-                'Version 0.0.1',
+                'Version 0.1.0',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ),

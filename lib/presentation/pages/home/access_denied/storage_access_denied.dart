@@ -23,9 +23,9 @@ class StorageAccessException extends StatelessWidget {
               IconButton(
                   onPressed: () async {
                     // ask for permission
-                    await Permission.storage.request();
+                    await Permission.audio.request();
                     // checks permission is granded then navigate to dirctly home page
-                    if (await Permission.storage.request().isGranted) {
+                    if (await Permission.audio.request().isGranted) {
                       // set sharePref true
                       SharedPrefImpl.setSharedpref(status: true);
                       Future.sync(() => Navigator.push(

@@ -64,8 +64,11 @@ class OnBoardingScreen extends StatelessWidget {
                   child: InkWell(
                     onTap: () async {
                       // ask permission for storage
+                      await Permission.audio.request();
+
                       await Permission.storage.request();
-                      if (await Permission.storage.isGranted) {
+                      if (await Permission.audio.isGranted ||
+                          await Permission.storage.isGranted) {
                         // permission is granded set share pref true
                         SharedPrefImpl.setSharedpref(status: true);
                         // then navigate directly to the home page
